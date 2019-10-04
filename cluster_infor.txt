@@ -1,0 +1,58 @@
+The Vulcan cluster consists of 6 nodes running RHEL 7.5 with the following specifications,
+2x 2.4GHz Intel Xeon E5-2680 v4 (14 Cores) 35MB L3 Cache  9.6GT/s QPI (Max Turbo Freq. 3.3GHz, Min 2.9GHz) 
+256GB 2400MHz ECC DDR4-RAM (Quad Channel)
+2x 1.2TB 10,000 RPM SAS II Hard Drives (Raid 1) and 4x 1.2TB 10,000 RPM SAS II Hard Drives (Raid 5)
+2x NIVDIA Quadro P5000 16GB Graphics Card (GPUs) (2560 Cores)
+
+The Orion cluster consists of 24 nodes running RHEL 7.5 with the following specifications,
+2.9GHz Intel Xeon E5-2690 (8 Cores) 20MB L3  QPI (Max Turbo Freq. 3.8GHz, Min 3.3GHz) 
+32GB 1600MHz ECC DDR3-RAM (Quad Channel)
+2x 1TB 7,200 RPM SATA III Hard Drives (Raid)
+Note: Orion1 to 8 have NVIDIA Quadro M4000 8GB Graphics Cards (GPU)
+Note: Orion9 to 22 have NVIDIA Quadro P4000 8GB Graphics Cards (GPU)
+
+The Mars cluster (Part of the new iHPC Facility) consists of 36 nodes running RHEL 7.5 with the following specifications,
+Intel Xeon Gold 6150 2.7GHz 18 cores (16 cores enabled) 24.75MB L3 Cache (Max Turbo Freq. 3.7GHz, Min 3.4GHz) 
+180GB RAM (Six Channel)
+4.8TB of Disk Space
+NVIDIA Quadro P5000 16GB Graphics Card (GPU)
+Note: Mars1 to 4  have double memory, 360GB each.
+
+
+The Saturn GPU Cluster cluster consists of 6 nodes running RHEL 7.5 with the following specifications,,
+Saturn1 to 3:
+Intel Xeon W-2133 3.6GHz 6 cores 8.25MB L3 Cache (Max Turbo Freq. 3.9GHz, Min 3.7GHz) HT Enabled
+64GB 2666MHz ECC DDR4-RAM (Quad Channel)
+2x 512GB SATA SSDs
+2x NVIDIA Quadro P5000 16GB Graphics Card (GPU) (peer to peer capable)
+Saturn4:
+2x 3.4GHz Intel Xeon E5-2643 v3 (6 Cores) 20MB L3 Cache  9.6GT/s QPI (Max Turbo Freq. 3.7GHz, Min 3.6GHz) 
+64GB 2133MHz ECC DDR4-RAM (Quad Channel)
+2x 900GB 10,000 RPM SAS II Hard Drives (Raid) and 2x 1.2TB 10,000 RPM SAS II Hard Drives (Raid)
+2x NVIDIA Quadro P5000 16GB Graphics Card (GPU)
+Saturn5: 
+2x 2.4GHz Intel Xeon E5-2680 v4 (14 Cores) 35MB L3 Cache  9.6GT/s QPI (Max Turbo Freq. 3.3GHz, Min 2.9GHz) 
+128GB 2400MHz ECC DDR4-RAM (Quad Channel)
+2x 1.2TB 10,000 RPM SAS II Hard Drives (Raid 1) and 4x 1.2TB 10,000 RPM SAS II Hard Drives (Raid 5)
+2x NIVDIA Tesla P100 16GB GPUs (3584 Cores)
+Saturn6 to 9: (Part of the new iHPC Facility) 
+Intel Xeon Gold 6150 2.7GHz 18 cores (16 cores enabled) 24.75MB L3 Cache (Max Turbo Freq. 3.7GHz, Min 3.4GHz) 
+180GB RAM (Six Channel)
+4.8TB of Disk Space
+NVIDIA Tesla P40 24GB (GPU)
+Saturn10 to 15: (Part of the new iHPC Facility) Coming Soon!
+Intel Xeon Gold 6132 2.6GHz 14 cores (12 cores enabled) 19.25MB L3 Cache (Max Turbo Freq. 3.7GHz, Min 3.3GHz) 
+90GB RAM (Six Channel)
+2.5TB of Disk Space
+NVIDIA Quadro RTX 6000 24GB (GPU)
+Saturn16 to 21: (Part of the new iHPC Facility) Coming Soon!
+Intel Xeon Gold 6132 2.6GHz 14 cores (12 cores enabled) 19.25MB L3 Cache (Max Turbo Freq. 3.7GHz, Min 3.3GHz) 
+90GB RAM (Six Channel)
+2.5TB of Disk Space
+NVIDIA Quadro GV100 32GB (GPU)
+Tesla: 
+2x 2.6GHz Intel Xeon E5-2690 v3 (12 Cores) 30MB L3 Cache  9.6GT/s QPI (Max Turbo Freq. 3.5GHz, Min 3.1GHz) 
+128GB 2133MHz ECC DDR4-RAM (Quad Channel)
+1x 200GB Solid State Drive and 1x 960GB Solid State Drive
+4x NIVDIA Tesla K80 24GB GPUs (4992 Cores) (equivalent to 8x NVIDIA Tesla K40 12GB GPUs)
+Note: The Tesla node is only available by booking.

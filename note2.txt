@@ -1,0 +1,393 @@
+(py36) python train.py 
+Better speed can be achieved with apex installed from https://www.github.com/nvidia/apex.
+Namespace(adam_eps=1e-06, answer_att_hidden_size=128, answer_att_type='bilinear', answer_dropout_p=0.1, answer_mem_drop_p=0.1, answer_mem_type=1, answer_merge_opt=1, answer_num_turn=5, answer_opt=0, answer_rnn_type='gru', answer_sum_att_type='bilinear', answer_weight_norm_on=False, batch_size=4, batch_size_eval=4, bert_dropout_p=0.1, bert_l2norm=0.0, cuda=True, data_dir='data/canonical_data/bert_uncased_lower', data_sort_on=False, dropout_p=0.1, dropout_w=0.0, dump_state_on=False, ema_gamma=0.995, ema_opt=0, embedding_opt=0, encoder_type=<EncoderModelType.BERT: 1>, epochs=5, fp16=False, fp16_opt_level='O1', freeze_layers=-1, global_grad_clipping=1.0, grad_accumulation_step=1, grad_clipping=0, have_lr_scheduler=True, init_checkpoint='mt_dnn_models/bert_model_base.pt', init_ratio=1, label_size='3', learning_rate=5e-05, log_file='mt-dnn-train.log', log_per_updates=500, lr_gamma=0.5, max_seq_len=512, mem_cum_type='simple', mix_opt=0, model_ckpt='checkpoints/model_0.pt', momentum=0, mtl_opt=0, multi_gpu_on=False, multi_step_lr='10,20,30', name='farmer', optimizer='adamax', output_dir='checkpoint', ratio=0, resume=False, save_per_updates=10000, save_per_updates_on=False, scheduler_type='ms', seed=2018, task_def='experiments/glue/glue_task_def.yml', tensorboard=False, tensorboard_logdir='tensorboard_logdir', test_datasets=['mnli_mismatched', 'mnli_matched'], train_datasets=['mnli'], update_bert_opt=0, vb_dropout=True, warmup=0.1, warmup_schedule='warmup_linear', weight_decay=0)
+09/26/2019 12:57:13 0
+09/26/2019 12:57:13 Launching the MT-DNN training
+09/26/2019 12:57:13 Loading data/canonical_data/bert_uncased_lower/mnli_train.json as task 0
+Loaded 392702 samples out of 392702
+09/26/2019 12:57:23 3
+Loaded 9832 samples out of 9832
+Loaded 9847 samples out of 9847
+Loaded 9815 samples out of 9815
+Loaded 9796 samples out of 9796
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 {'log_file': 'mt-dnn-train.log', 'tensorboard': False, 'tensorboard_logdir': 'tensorboard_logdir', 'init_checkpoint': 'mt_dnn_models/bert_model_base.pt', 'data_dir': 'data/canonical_data/bert_uncased_lower', 'data_sort_on': False, 'name': 'farmer', 'task_def': 'experiments/glue/glue_task_def.yml', 'train_datasets': ['mnli'], 'test_datasets': ['mnli_mismatched', 'mnli_matched'], 'update_bert_opt': 0, 'multi_gpu_on': False, 'mem_cum_type': 'simple', 'answer_num_turn': 5, 'answer_mem_drop_p': 0.1, 'answer_att_hidden_size': 128, 'answer_att_type': 'bilinear', 'answer_rnn_type': 'gru', 'answer_sum_att_type': 'bilinear', 'answer_merge_opt': 1, 'answer_mem_type': 1, 'answer_dropout_p': 0.1, 'answer_weight_norm_on': False, 'dump_state_on': False, 'answer_opt': [0], 'label_size': '3', 'mtl_opt': 0, 'ratio': 0, 'mix_opt': 0, 'max_seq_len': 512, 'init_ratio': 1, 'encoder_type': <EncoderModelType.BERT: 1>, 'cuda': True, 'log_per_updates': 500, 'save_per_updates': 10000, 'save_per_updates_on': False, 'epochs': 5, 'batch_size': 4, 'batch_size_eval': 4, 'optimizer': 'adamax', 'grad_clipping': 0, 'global_grad_clipping': 1.0, 'weight_decay': 0, 'learning_rate': 5e-05, 'momentum': 0, 'warmup': 0.1, 'warmup_schedule': 'warmup_linear', 'adam_eps': 1e-06, 'vb_dropout': True, 'dropout_p': 0.1, 'dropout_w': 0.0, 'bert_dropout_p': 0.1, 'model_ckpt': 'checkpoints/model_0.pt', 'resume': False, 'ema_opt': 0, 'ema_gamma': 0.995, 'have_lr_scheduler': True, 'multi_step_lr': '10,20,30', 'freeze_layers': -1, 'embedding_opt': 0, 'lr_gamma': 0.5, 'bert_l2norm': 0.0, 'scheduler_type': 'ms', 'output_dir': 'checkpoint', 'seed': 2018, 'grad_accumulation_step': 1, 'fp16': False, 'fp16_opt_level': 'O1', 'tasks_dropout_p': [0.3]}
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 ############# Gradient Accumulation Info #############
+09/26/2019 12:57:25 number of step: 490880
+09/26/2019 12:57:25 number of grad grad_accumulation step: 1
+09/26/2019 12:57:25 adjusted number of step: 490880
+09/26/2019 12:57:25 ############# Gradient Accumulation Info #############
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 Could not find the init model!
+ The parameters will be initialized randomly!
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:55 
+############# Model Arch of MT-DNN #############
+SANBertNetwork(
+  (dropout_list): ModuleList(
+    (0): DropoutWrapper()
+  )
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): BertLayerNorm()
+      (dropout): Dropout(p=0.1)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (scoring_list): ModuleList(
+    (0): Linear(in_features=768, out_features=3, bias=True)
+  )
+)
+
+09/26/2019 12:57:55 Total number of params: 109484547
+09/26/2019 12:57:55 At epoch 0
+09/26/2019 12:57:55 Task [ 0] updates[     1] train loss[1.21281] remaining[11:35:56]
+09/26/2019 12:59:38 Task [ 0] updates[   500] train loss[1.10662] remaining[5:35:24]
+09/26/2019 01:01:21 Task [ 0] updates[  1000] train loss[1.10919] remaining[5:33:35]
+09/26/2019 01:03:04 Task [ 0] updates[  1500] train loss[1.11193] remaining[5:31:59]
+09/26/2019 01:04:47 Task [ 0] updates[  2000] train loss[1.11295] remaining[5:30:13]
+
+
+09/26/2019 06:29:42 Task [ 0] updates[ 97000] train loss[1.01884] remaining[0:04:01]
+09/26/2019 06:31:25 Task [ 0] updates[ 97500] train loss[1.01857] remaining[0:02:18]
+09/26/2019 06:33:07 Task [ 0] updates[ 98000] train loss[1.01837] remaining[0:00:36]
+09/26/2019 06:35:05 Task mnli_mismatched -- epoch 0 -- Dev ACC: 54.587
+09/26/2019 06:36:27 [new test scores saved.]
+09/26/2019 06:37:48 Task mnli_matched -- epoch 0 -- Dev ACC: 53.785
+09/26/2019 06:39:10 [new test scores saved.]
+09/26/2019 06:39:22 At epoch 1
+09/26/2019 06:40:29 Task [ 0] updates[ 98500] train loss[1.01803] remaining[5:36:07]
+09/26/2019 06:42:12 Task [ 0] updates[ 99000] train loss[1.01781] remaining[5:33:43]
+09/26/2019 06:43:55 Task [ 0] updates[ 99500] train loss[1.01747] remaining[5:31:48]
+09/26/2019 06:45:37 Task [ 0] updates[100000] train loss[1.01712] remaining[5:29:58]
+09/26/2019 06:47:20 Task [ 0] updates[100500] train loss[1.01680] remaining[5:28:20]
+
+
+09/27/2019 12:09:07 Task [ 0] updates[194500] train loss[0.97565] remaining[0:06:20]
+09/27/2019 12:10:50 Task [ 0] updates[195000] train loss[0.97548] remaining[0:04:37]
+09/27/2019 12:12:33 Task [ 0] updates[195500] train loss[0.97528] remaining[0:02:55]
+09/27/2019 12:14:16 Task [ 0] updates[196000] train loss[0.97502] remaining[0:01:12]
+09/27/2019 12:16:50 Task mnli_mismatched -- epoch 1 -- Dev ACC: 58.167
+09/27/2019 12:18:12 [new test scores saved.]
+09/27/2019 12:19:33 Task mnli_matched -- epoch 1 -- Dev ACC: 58.115
+09/27/2019 12:20:54 [new test scores saved.]
+09/27/2019 12:21:07 At epoch 2
+09/27/2019 12:21:37 Task [ 0] updates[196500] train loss[0.97484] remaining[5:38:38]
+09/27/2019 12:23:20 Task [ 0] updates[197000] train loss[0.97474] remaining[5:34:54]
+09/27/2019 12:25:03 Task [ 0] updates[197500] train loss[0.97460] remaining[5:33:30]
+09/27/2019 12:26:46 Task [ 0] updates[198000] train loss[0.97437] remaining[5:31:37]
+
+
+09/27/2019 05:51:53 Task [ 0] updates[293000] train loss[0.94478] remaining[0:05:13]
+09/27/2019 05:53:35 Task [ 0] updates[293500] train loss[0.94466] remaining[0:03:31]
+09/27/2019 05:55:18 Task [ 0] updates[294000] train loss[0.94451] remaining[0:01:48]
+09/27/2019 05:57:01 Task [ 0] updates[294500] train loss[0.94435] remaining[0:00:05]
+09/27/2019 05:58:28 Task mnli_mismatched -- epoch 2 -- Dev ACC: 62.734
+09/27/2019 05:59:50 [new test scores saved.]
+09/27/2019 06:01:11 Task mnli_matched -- epoch 2 -- Dev ACC: 61.355
+09/27/2019 06:02:32 [new test scores saved.]
+09/27/2019 06:02:44 At epoch 3
+09/27/2019 06:04:22 Task [ 0] updates[295000] train loss[0.94422] remaining[5:35:44]
+09/27/2019 06:06:04 Task [ 0] updates[295500] train loss[0.94407] remaining[5:33:16]
+09/27/2019 06:07:47 Task [ 0] updates[296000] train loss[0.94387] remaining[5:31:29]
+09/27/2019 06:09:30 Task [ 0] updates[296500] train loss[0.94371] remaining[5:29:28]
+
+
+09/27/2019 11:36:19 Task [ 0] updates[392000] train loss[0.91802] remaining[0:02:24]
+09/27/2019 11:38:01 Task [ 0] updates[392500] train loss[0.91790] remaining[0:00:41]
+09/27/2019 11:40:05 Task mnli_mismatched -- epoch 3 -- Dev ACC: 64.076
+09/27/2019 11:41:27 [new test scores saved.]
+09/27/2019 11:42:48 Task mnli_matched -- epoch 3 -- Dev ACC: 63.413
+09/27/2019 11:44:09 [new test scores saved.]
+09/27/2019 11:44:22 At epoch 4
+09/27/2019 11:45:23 Task [ 0] updates[393000] train loss[0.91779] remaining[5:34:10]
+09/27/2019 11:47:05 Task [ 0] updates[393500] train loss[0.91764] remaining[5:32:19]
+09/27/2019 11:48:48 Task [ 0] updates[394000] train loss[0.91753] remaining[5:32:03]
+09/27/2019 11:50:31 Task [ 0] updates[394500] train loss[0.91739] remaining[5:30:28]

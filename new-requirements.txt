@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct  1 15:41:36 2019
+
+@author: 13616267
+"""
+
+numpy
+tqdm
+colorlog
+boto3
+pytorch-pretrained-bert==v0.6.0
+regex
+scikit-learn
+pyyaml
+pytest
+sentencepiece
+tensorboardX
+tensorboard
+future
+fairseq

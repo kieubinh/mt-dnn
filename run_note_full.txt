@@ -1,0 +1,1336 @@
+(py36) python train.py 
+Better speed can be achieved with apex installed from https://www.github.com/nvidia/apex.
+Namespace(adam_eps=1e-06, answer_att_hidden_size=128, answer_att_type='bilinear', answer_dropout_p=0.1, answer_mem_drop_p=0.1, answer_mem_type=1, answer_merge_opt=1, answer_num_turn=5, answer_opt=0, answer_rnn_type='gru', answer_sum_att_type='bilinear', answer_weight_norm_on=False, batch_size=4, batch_size_eval=4, bert_dropout_p=0.1, bert_l2norm=0.0, cuda=True, data_dir='data/canonical_data/bert_uncased_lower', data_sort_on=False, dropout_p=0.1, dropout_w=0.0, dump_state_on=False, ema_gamma=0.995, ema_opt=0, embedding_opt=0, encoder_type=<EncoderModelType.BERT: 1>, epochs=5, fp16=False, fp16_opt_level='O1', freeze_layers=-1, global_grad_clipping=1.0, grad_accumulation_step=1, grad_clipping=0, have_lr_scheduler=True, init_checkpoint='mt_dnn_models/bert_model_base.pt', init_ratio=1, label_size='3', learning_rate=5e-05, log_file='mt-dnn-train.log', log_per_updates=500, lr_gamma=0.5, max_seq_len=512, mem_cum_type='simple', mix_opt=0, model_ckpt='checkpoints/model_0.pt', momentum=0, mtl_opt=0, multi_gpu_on=False, multi_step_lr='10,20,30', name='farmer', optimizer='adamax', output_dir='checkpoint', ratio=0, resume=False, save_per_updates=10000, save_per_updates_on=False, scheduler_type='ms', seed=2018, task_def='experiments/glue/glue_task_def.yml', tensorboard=False, tensorboard_logdir='tensorboard_logdir', test_datasets=['mnli_mismatched', 'mnli_matched'], train_datasets=['mnli'], update_bert_opt=0, vb_dropout=True, warmup=0.1, warmup_schedule='warmup_linear', weight_decay=0)
+09/26/2019 12:57:13 0
+09/26/2019 12:57:13 Launching the MT-DNN training
+09/26/2019 12:57:13 Loading data/canonical_data/bert_uncased_lower/mnli_train.json as task 0
+Loaded 392702 samples out of 392702
+09/26/2019 12:57:23 3
+Loaded 9832 samples out of 9832
+Loaded 9847 samples out of 9847
+Loaded 9815 samples out of 9815
+Loaded 9796 samples out of 9796
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 {'log_file': 'mt-dnn-train.log', 'tensorboard': False, 'tensorboard_logdir': 'tensorboard_logdir', 'init_checkpoint': 'mt_dnn_models/bert_model_base.pt', 'data_dir': 'data/canonical_data/bert_uncased_lower', 'data_sort_on': False, 'name': 'farmer', 'task_def': 'experiments/glue/glue_task_def.yml', 'train_datasets': ['mnli'], 'test_datasets': ['mnli_mismatched', 'mnli_matched'], 'update_bert_opt': 0, 'multi_gpu_on': False, 'mem_cum_type': 'simple', 'answer_num_turn': 5, 'answer_mem_drop_p': 0.1, 'answer_att_hidden_size': 128, 'answer_att_type': 'bilinear', 'answer_rnn_type': 'gru', 'answer_sum_att_type': 'bilinear', 'answer_merge_opt': 1, 'answer_mem_type': 1, 'answer_dropout_p': 0.1, 'answer_weight_norm_on': False, 'dump_state_on': False, 'answer_opt': [0], 'label_size': '3', 'mtl_opt': 0, 'ratio': 0, 'mix_opt': 0, 'max_seq_len': 512, 'init_ratio': 1, 'encoder_type': <EncoderModelType.BERT: 1>, 'cuda': True, 'log_per_updates': 500, 'save_per_updates': 10000, 'save_per_updates_on': False, 'epochs': 5, 'batch_size': 4, 'batch_size_eval': 4, 'optimizer': 'adamax', 'grad_clipping': 0, 'global_grad_clipping': 1.0, 'weight_decay': 0, 'learning_rate': 5e-05, 'momentum': 0, 'warmup': 0.1, 'warmup_schedule': 'warmup_linear', 'adam_eps': 1e-06, 'vb_dropout': True, 'dropout_p': 0.1, 'dropout_w': 0.0, 'bert_dropout_p': 0.1, 'model_ckpt': 'checkpoints/model_0.pt', 'resume': False, 'ema_opt': 0, 'ema_gamma': 0.995, 'have_lr_scheduler': True, 'multi_step_lr': '10,20,30', 'freeze_layers': -1, 'embedding_opt': 0, 'lr_gamma': 0.5, 'bert_l2norm': 0.0, 'scheduler_type': 'ms', 'output_dir': 'checkpoint', 'seed': 2018, 'grad_accumulation_step': 1, 'fp16': False, 'fp16_opt_level': 'O1', 'tasks_dropout_p': [0.3]}
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 ############# Gradient Accumulation Info #############
+09/26/2019 12:57:25 number of step: 490880
+09/26/2019 12:57:25 number of grad grad_accumulation step: 1
+09/26/2019 12:57:25 adjusted number of step: 490880
+09/26/2019 12:57:25 ############# Gradient Accumulation Info #############
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:25 Could not find the init model!
+ The parameters will be initialized randomly!
+09/26/2019 12:57:25 ####################
+09/26/2019 12:57:55 
+############# Model Arch of MT-DNN #############
+SANBertNetwork(
+  (dropout_list): ModuleList(
+    (0): DropoutWrapper()
+  )
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): BertLayerNorm()
+      (dropout): Dropout(p=0.1)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): BertLayerNorm()
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): BertLayerNorm()
+            (dropout): Dropout(p=0.1)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (scoring_list): ModuleList(
+    (0): Linear(in_features=768, out_features=3, bias=True)
+  )
+)
+
+09/26/2019 12:57:55 Total number of params: 109484547
+09/26/2019 12:57:55 At epoch 0
+09/26/2019 12:57:55 Task [ 0] updates[     1] train loss[1.21281] remaining[11:35:56]
+09/26/2019 12:59:38 Task [ 0] updates[   500] train loss[1.10662] remaining[5:35:24]
+09/26/2019 01:01:21 Task [ 0] updates[  1000] train loss[1.10919] remaining[5:33:35]
+09/26/2019 01:03:04 Task [ 0] updates[  1500] train loss[1.11193] remaining[5:31:59]
+09/26/2019 01:04:47 Task [ 0] updates[  2000] train loss[1.11295] remaining[5:30:13]
+09/26/2019 01:06:30 Task [ 0] updates[  2500] train loss[1.11261] remaining[5:28:11]
+09/26/2019 01:08:12 Task [ 0] updates[  3000] train loss[1.11164] remaining[5:26:21]
+09/26/2019 01:09:54 Task [ 0] updates[  3500] train loss[1.11279] remaining[5:24:15]
+09/26/2019 01:11:37 Task [ 0] updates[  4000] train loss[1.11319] remaining[5:22:21]
+09/26/2019 01:13:19 Task [ 0] updates[  4500] train loss[1.11278] remaining[5:20:37]
+09/26/2019 01:15:01 Task [ 0] updates[  5000] train loss[1.11251] remaining[5:18:48]
+09/26/2019 01:16:44 Task [ 0] updates[  5500] train loss[1.11222] remaining[5:16:58]
+09/26/2019 01:18:26 Task [ 0] updates[  6000] train loss[1.11227] remaining[5:15:14]
+09/26/2019 01:20:09 Task [ 0] updates[  6500] train loss[1.11237] remaining[5:13:34]
+09/26/2019 01:21:51 Task [ 0] updates[  7000] train loss[1.11226] remaining[5:11:49]
+09/26/2019 01:23:34 Task [ 0] updates[  7500] train loss[1.11162] remaining[5:10:09]
+09/26/2019 01:25:17 Task [ 0] updates[  8000] train loss[1.11153] remaining[5:08:25]
+09/26/2019 01:26:59 Task [ 0] updates[  8500] train loss[1.11160] remaining[5:06:38]
+09/26/2019 01:28:41 Task [ 0] updates[  9000] train loss[1.11172] remaining[5:04:54]
+09/26/2019 01:30:24 Task [ 0] updates[  9500] train loss[1.11124] remaining[5:03:16]
+09/26/2019 01:32:07 Task [ 0] updates[ 10000] train loss[1.11124] remaining[5:01:32]
+09/26/2019 01:33:49 Task [ 0] updates[ 10500] train loss[1.11107] remaining[4:59:49]
+09/26/2019 01:35:32 Task [ 0] updates[ 11000] train loss[1.11024] remaining[4:58:06]
+09/26/2019 01:37:14 Task [ 0] updates[ 11500] train loss[1.10974] remaining[4:56:23]
+09/26/2019 01:38:57 Task [ 0] updates[ 12000] train loss[1.10933] remaining[4:54:42]
+09/26/2019 01:40:40 Task [ 0] updates[ 12500] train loss[1.10885] remaining[4:52:59]
+09/26/2019 01:42:22 Task [ 0] updates[ 13000] train loss[1.10841] remaining[4:51:15]
+09/26/2019 01:44:05 Task [ 0] updates[ 13500] train loss[1.10786] remaining[4:49:34]
+09/26/2019 01:45:47 Task [ 0] updates[ 14000] train loss[1.10751] remaining[4:47:50]
+09/26/2019 01:47:30 Task [ 0] updates[ 14500] train loss[1.10728] remaining[4:46:08]
+09/26/2019 01:49:13 Task [ 0] updates[ 15000] train loss[1.10714] remaining[4:44:26]
+09/26/2019 01:50:55 Task [ 0] updates[ 15500] train loss[1.10688] remaining[4:42:43]
+09/26/2019 01:52:37 Task [ 0] updates[ 16000] train loss[1.10595] remaining[4:40:57]
+09/26/2019 01:54:20 Task [ 0] updates[ 16500] train loss[1.10459] remaining[4:39:13]
+09/26/2019 01:56:02 Task [ 0] updates[ 17000] train loss[1.10347] remaining[4:37:30]
+09/26/2019 01:57:45 Task [ 0] updates[ 17500] train loss[1.10245] remaining[4:35:47]
+09/26/2019 01:59:27 Task [ 0] updates[ 18000] train loss[1.10113] remaining[4:34:05]
+09/26/2019 02:01:10 Task [ 0] updates[ 18500] train loss[1.10002] remaining[4:32:22]
+09/26/2019 02:02:52 Task [ 0] updates[ 19000] train loss[1.09868] remaining[4:30:40]
+09/26/2019 02:04:35 Task [ 0] updates[ 19500] train loss[1.09742] remaining[4:28:58]
+09/26/2019 02:06:17 Task [ 0] updates[ 20000] train loss[1.09657] remaining[4:27:14]
+09/26/2019 02:07:59 Task [ 0] updates[ 20500] train loss[1.09545] remaining[4:25:30]
+09/26/2019 02:09:42 Task [ 0] updates[ 21000] train loss[1.09452] remaining[4:23:47]
+09/26/2019 02:11:24 Task [ 0] updates[ 21500] train loss[1.09278] remaining[4:22:04]
+09/26/2019 02:13:07 Task [ 0] updates[ 22000] train loss[1.09164] remaining[4:20:22]
+09/26/2019 02:14:50 Task [ 0] updates[ 22500] train loss[1.09072] remaining[4:18:41]
+09/26/2019 02:16:32 Task [ 0] updates[ 23000] train loss[1.08971] remaining[4:16:57]
+09/26/2019 02:18:14 Task [ 0] updates[ 23500] train loss[1.08857] remaining[4:15:14]
+09/26/2019 02:19:57 Task [ 0] updates[ 24000] train loss[1.08732] remaining[4:13:32]
+09/26/2019 02:21:39 Task [ 0] updates[ 24500] train loss[1.08626] remaining[4:11:49]
+09/26/2019 02:23:22 Task [ 0] updates[ 25000] train loss[1.08542] remaining[4:10:07]
+09/26/2019 02:25:05 Task [ 0] updates[ 25500] train loss[1.08466] remaining[4:08:24]
+09/26/2019 02:26:47 Task [ 0] updates[ 26000] train loss[1.08370] remaining[4:06:41]
+09/26/2019 02:28:30 Task [ 0] updates[ 26500] train loss[1.08253] remaining[4:04:59]
+09/26/2019 02:30:12 Task [ 0] updates[ 27000] train loss[1.08161] remaining[4:03:17]
+09/26/2019 02:31:55 Task [ 0] updates[ 27500] train loss[1.08106] remaining[4:01:34]
+09/26/2019 02:33:37 Task [ 0] updates[ 28000] train loss[1.07986] remaining[3:59:51]
+09/26/2019 02:35:20 Task [ 0] updates[ 28500] train loss[1.07896] remaining[3:58:09]
+09/26/2019 02:37:03 Task [ 0] updates[ 29000] train loss[1.07848] remaining[3:56:27]
+09/26/2019 02:38:45 Task [ 0] updates[ 29500] train loss[1.07763] remaining[3:54:45]
+09/26/2019 02:40:28 Task [ 0] updates[ 30000] train loss[1.07707] remaining[3:53:02]
+09/26/2019 02:42:11 Task [ 0] updates[ 30500] train loss[1.07604] remaining[3:51:21]
+09/26/2019 02:43:53 Task [ 0] updates[ 31000] train loss[1.07508] remaining[3:49:38]
+09/26/2019 02:45:36 Task [ 0] updates[ 31500] train loss[1.07450] remaining[3:47:55]
+09/26/2019 02:47:19 Task [ 0] updates[ 32000] train loss[1.07375] remaining[3:46:13]
+09/26/2019 02:49:01 Task [ 0] updates[ 32500] train loss[1.07307] remaining[3:44:30]
+09/26/2019 02:50:44 Task [ 0] updates[ 33000] train loss[1.07233] remaining[3:42:48]
+09/26/2019 02:52:26 Task [ 0] updates[ 33500] train loss[1.07177] remaining[3:41:06]
+09/26/2019 02:54:09 Task [ 0] updates[ 34000] train loss[1.07124] remaining[3:39:23]
+09/26/2019 02:55:52 Task [ 0] updates[ 34500] train loss[1.07070] remaining[3:37:41]
+09/26/2019 02:57:34 Task [ 0] updates[ 35000] train loss[1.06990] remaining[3:35:58]
+09/26/2019 02:59:17 Task [ 0] updates[ 35500] train loss[1.06934] remaining[3:34:16]
+09/26/2019 03:01:00 Task [ 0] updates[ 36000] train loss[1.06885] remaining[3:32:34]
+09/26/2019 03:02:42 Task [ 0] updates[ 36500] train loss[1.06846] remaining[3:30:51]
+09/26/2019 03:04:25 Task [ 0] updates[ 37000] train loss[1.06805] remaining[3:29:09]
+09/26/2019 03:06:08 Task [ 0] updates[ 37500] train loss[1.06747] remaining[3:27:26]
+09/26/2019 03:07:50 Task [ 0] updates[ 38000] train loss[1.06712] remaining[3:25:44]
+09/26/2019 03:09:33 Task [ 0] updates[ 38500] train loss[1.06662] remaining[3:24:01]
+09/26/2019 03:11:15 Task [ 0] updates[ 39000] train loss[1.06593] remaining[3:22:19]
+09/26/2019 03:12:58 Task [ 0] updates[ 39500] train loss[1.06516] remaining[3:20:37]
+09/26/2019 03:14:41 Task [ 0] updates[ 40000] train loss[1.06466] remaining[3:18:54]
+09/26/2019 03:16:23 Task [ 0] updates[ 40500] train loss[1.06421] remaining[3:17:11]
+09/26/2019 03:18:06 Task [ 0] updates[ 41000] train loss[1.06372] remaining[3:15:28]
+09/26/2019 03:19:48 Task [ 0] updates[ 41500] train loss[1.06333] remaining[3:13:46]
+09/26/2019 03:21:31 Task [ 0] updates[ 42000] train loss[1.06256] remaining[3:12:03]
+09/26/2019 03:23:13 Task [ 0] updates[ 42500] train loss[1.06218] remaining[3:10:21]
+09/26/2019 03:24:56 Task [ 0] updates[ 43000] train loss[1.06166] remaining[3:08:38]
+09/26/2019 03:26:38 Task [ 0] updates[ 43500] train loss[1.06130] remaining[3:06:55]
+09/26/2019 03:28:22 Task [ 0] updates[ 44000] train loss[1.06068] remaining[3:05:14]
+09/26/2019 03:30:04 Task [ 0] updates[ 44500] train loss[1.06003] remaining[3:03:31]
+09/26/2019 03:31:47 Task [ 0] updates[ 45000] train loss[1.05950] remaining[3:01:49]
+09/26/2019 03:33:30 Task [ 0] updates[ 45500] train loss[1.05897] remaining[3:00:06]
+09/26/2019 03:35:12 Task [ 0] updates[ 46000] train loss[1.05849] remaining[2:58:24]
+09/26/2019 03:36:55 Task [ 0] updates[ 46500] train loss[1.05792] remaining[2:56:42]
+09/26/2019 03:38:38 Task [ 0] updates[ 47000] train loss[1.05725] remaining[2:54:59]
+09/26/2019 03:40:20 Task [ 0] updates[ 47500] train loss[1.05676] remaining[2:53:16]
+09/26/2019 03:42:03 Task [ 0] updates[ 48000] train loss[1.05619] remaining[2:51:34]
+09/26/2019 03:43:45 Task [ 0] updates[ 48500] train loss[1.05557] remaining[2:49:51]
+09/26/2019 03:45:28 Task [ 0] updates[ 49000] train loss[1.05534] remaining[2:48:09]
+09/26/2019 03:47:10 Task [ 0] updates[ 49500] train loss[1.05509] remaining[2:46:26]
+09/26/2019 03:48:52 Task [ 0] updates[ 50000] train loss[1.05460] remaining[2:44:43]
+09/26/2019 03:50:34 Task [ 0] updates[ 50500] train loss[1.05425] remaining[2:43:00]
+09/26/2019 03:52:17 Task [ 0] updates[ 51000] train loss[1.05362] remaining[2:41:17]
+09/26/2019 03:53:59 Task [ 0] updates[ 51500] train loss[1.05319] remaining[2:39:34]
+09/26/2019 03:55:42 Task [ 0] updates[ 52000] train loss[1.05267] remaining[2:37:52]
+09/26/2019 03:57:24 Task [ 0] updates[ 52500] train loss[1.05220] remaining[2:36:09]
+09/26/2019 03:59:07 Task [ 0] updates[ 53000] train loss[1.05180] remaining[2:34:26]
+09/26/2019 04:00:50 Task [ 0] updates[ 53500] train loss[1.05144] remaining[2:32:44]
+09/26/2019 04:02:32 Task [ 0] updates[ 54000] train loss[1.05110] remaining[2:31:02]
+09/26/2019 04:04:15 Task [ 0] updates[ 54500] train loss[1.05066] remaining[2:29:19]
+09/26/2019 04:05:58 Task [ 0] updates[ 55000] train loss[1.05034] remaining[2:27:37]
+09/26/2019 04:07:41 Task [ 0] updates[ 55500] train loss[1.04980] remaining[2:25:54]
+09/26/2019 04:09:23 Task [ 0] updates[ 56000] train loss[1.04936] remaining[2:24:12]
+09/26/2019 04:11:06 Task [ 0] updates[ 56500] train loss[1.04893] remaining[2:22:29]
+09/26/2019 04:12:48 Task [ 0] updates[ 57000] train loss[1.04855] remaining[2:20:47]
+09/26/2019 04:14:31 Task [ 0] updates[ 57500] train loss[1.04798] remaining[2:19:04]
+09/26/2019 04:16:14 Task [ 0] updates[ 58000] train loss[1.04765] remaining[2:17:22]
+09/26/2019 04:17:56 Task [ 0] updates[ 58500] train loss[1.04707] remaining[2:15:39]
+09/26/2019 04:19:39 Task [ 0] updates[ 59000] train loss[1.04658] remaining[2:13:57]
+09/26/2019 04:21:22 Task [ 0] updates[ 59500] train loss[1.04632] remaining[2:12:14]
+09/26/2019 04:23:05 Task [ 0] updates[ 60000] train loss[1.04582] remaining[2:10:32]
+09/26/2019 04:24:48 Task [ 0] updates[ 60500] train loss[1.04527] remaining[2:08:49]
+09/26/2019 04:26:31 Task [ 0] updates[ 61000] train loss[1.04492] remaining[2:07:07]
+09/26/2019 04:28:13 Task [ 0] updates[ 61500] train loss[1.04453] remaining[2:05:24]
+09/26/2019 04:29:56 Task [ 0] updates[ 62000] train loss[1.04384] remaining[2:03:42]
+09/26/2019 04:31:39 Task [ 0] updates[ 62500] train loss[1.04334] remaining[2:02:00]
+09/26/2019 04:33:21 Task [ 0] updates[ 63000] train loss[1.04301] remaining[2:00:17]
+09/26/2019 04:35:04 Task [ 0] updates[ 63500] train loss[1.04277] remaining[1:58:34]
+09/26/2019 04:36:47 Task [ 0] updates[ 64000] train loss[1.04245] remaining[1:56:52]
+09/26/2019 04:38:29 Task [ 0] updates[ 64500] train loss[1.04206] remaining[1:55:09]
+09/26/2019 04:40:11 Task [ 0] updates[ 65000] train loss[1.04157] remaining[1:53:26]
+09/26/2019 04:41:54 Task [ 0] updates[ 65500] train loss[1.04107] remaining[1:51:44]
+09/26/2019 04:43:36 Task [ 0] updates[ 66000] train loss[1.04060] remaining[1:50:01]
+09/26/2019 04:45:19 Task [ 0] updates[ 66500] train loss[1.04019] remaining[1:48:19]
+09/26/2019 04:47:02 Task [ 0] updates[ 67000] train loss[1.03979] remaining[1:46:36]
+09/26/2019 04:48:45 Task [ 0] updates[ 67500] train loss[1.03943] remaining[1:44:54]
+09/26/2019 04:50:28 Task [ 0] updates[ 68000] train loss[1.03896] remaining[1:43:11]
+09/26/2019 04:52:10 Task [ 0] updates[ 68500] train loss[1.03858] remaining[1:41:29]
+09/26/2019 04:53:52 Task [ 0] updates[ 69000] train loss[1.03825] remaining[1:39:46]
+09/26/2019 04:55:35 Task [ 0] updates[ 69500] train loss[1.03774] remaining[1:38:03]
+09/26/2019 04:57:18 Task [ 0] updates[ 70000] train loss[1.03737] remaining[1:36:21]
+09/26/2019 04:59:01 Task [ 0] updates[ 70500] train loss[1.03697] remaining[1:34:38]
+09/26/2019 05:00:44 Task [ 0] updates[ 71000] train loss[1.03649] remaining[1:32:56]
+09/26/2019 05:02:27 Task [ 0] updates[ 71500] train loss[1.03609] remaining[1:31:13]
+09/26/2019 05:04:09 Task [ 0] updates[ 72000] train loss[1.03562] remaining[1:29:31]
+09/26/2019 05:05:52 Task [ 0] updates[ 72500] train loss[1.03534] remaining[1:27:48]
+09/26/2019 05:07:35 Task [ 0] updates[ 73000] train loss[1.03495] remaining[1:26:06]
+09/26/2019 05:09:17 Task [ 0] updates[ 73500] train loss[1.03449] remaining[1:24:23]
+09/26/2019 05:10:59 Task [ 0] updates[ 74000] train loss[1.03414] remaining[1:22:40]
+09/26/2019 05:12:42 Task [ 0] updates[ 74500] train loss[1.03377] remaining[1:20:58]
+09/26/2019 05:14:25 Task [ 0] updates[ 75000] train loss[1.03340] remaining[1:19:15]
+09/26/2019 05:16:08 Task [ 0] updates[ 75500] train loss[1.03311] remaining[1:17:33]
+09/26/2019 05:17:50 Task [ 0] updates[ 76000] train loss[1.03268] remaining[1:15:50]
+09/26/2019 05:19:34 Task [ 0] updates[ 76500] train loss[1.03235] remaining[1:14:08]
+09/26/2019 05:21:16 Task [ 0] updates[ 77000] train loss[1.03200] remaining[1:12:25]
+09/26/2019 05:22:59 Task [ 0] updates[ 77500] train loss[1.03161] remaining[1:10:42]
+09/26/2019 05:24:41 Task [ 0] updates[ 78000] train loss[1.03110] remaining[1:09:00]
+09/26/2019 05:26:24 Task [ 0] updates[ 78500] train loss[1.03062] remaining[1:07:17]
+09/26/2019 05:28:07 Task [ 0] updates[ 79000] train loss[1.03026] remaining[1:05:35]
+09/26/2019 05:29:49 Task [ 0] updates[ 79500] train loss[1.02990] remaining[1:03:52]
+09/26/2019 05:31:31 Task [ 0] updates[ 80000] train loss[1.02954] remaining[1:02:09]
+09/26/2019 05:33:14 Task [ 0] updates[ 80500] train loss[1.02916] remaining[1:00:27]
+09/26/2019 05:34:57 Task [ 0] updates[ 81000] train loss[1.02874] remaining[0:58:44]
+09/26/2019 05:36:40 Task [ 0] updates[ 81500] train loss[1.02835] remaining[0:57:02]
+09/26/2019 05:38:22 Task [ 0] updates[ 82000] train loss[1.02806] remaining[0:55:19]
+09/26/2019 05:40:05 Task [ 0] updates[ 82500] train loss[1.02768] remaining[0:53:36]
+09/26/2019 05:41:48 Task [ 0] updates[ 83000] train loss[1.02744] remaining[0:51:54]
+09/26/2019 05:43:30 Task [ 0] updates[ 83500] train loss[1.02724] remaining[0:50:11]
+09/26/2019 05:45:13 Task [ 0] updates[ 84000] train loss[1.02691] remaining[0:48:29]
+09/26/2019 05:46:56 Task [ 0] updates[ 84500] train loss[1.02662] remaining[0:46:46]
+09/26/2019 05:48:39 Task [ 0] updates[ 85000] train loss[1.02631] remaining[0:45:03]
+09/26/2019 05:50:21 Task [ 0] updates[ 85500] train loss[1.02592] remaining[0:43:21]
+09/26/2019 05:52:03 Task [ 0] updates[ 86000] train loss[1.02565] remaining[0:41:38]
+09/26/2019 05:53:46 Task [ 0] updates[ 86500] train loss[1.02536] remaining[0:39:56]
+09/26/2019 05:55:28 Task [ 0] updates[ 87000] train loss[1.02494] remaining[0:38:13]
+09/26/2019 05:57:11 Task [ 0] updates[ 87500] train loss[1.02449] remaining[0:36:30]
+09/26/2019 05:58:53 Task [ 0] updates[ 88000] train loss[1.02411] remaining[0:34:48]
+09/26/2019 06:00:36 Task [ 0] updates[ 88500] train loss[1.02381] remaining[0:33:05]
+09/26/2019 06:02:18 Task [ 0] updates[ 89000] train loss[1.02357] remaining[0:31:22]
+09/26/2019 06:04:01 Task [ 0] updates[ 89500] train loss[1.02319] remaining[0:29:40]
+09/26/2019 06:05:44 Task [ 0] updates[ 90000] train loss[1.02283] remaining[0:27:57]
+09/26/2019 06:07:26 Task [ 0] updates[ 90500] train loss[1.02261] remaining[0:26:15]
+09/26/2019 06:09:09 Task [ 0] updates[ 91000] train loss[1.02226] remaining[0:24:32]
+09/26/2019 06:10:52 Task [ 0] updates[ 91500] train loss[1.02195] remaining[0:22:49]
+09/26/2019 06:12:35 Task [ 0] updates[ 92000] train loss[1.02174] remaining[0:21:07]
+09/26/2019 06:14:18 Task [ 0] updates[ 92500] train loss[1.02141] remaining[0:19:24]
+09/26/2019 06:16:00 Task [ 0] updates[ 93000] train loss[1.02114] remaining[0:17:42]
+09/26/2019 06:17:43 Task [ 0] updates[ 93500] train loss[1.02083] remaining[0:15:59]
+09/26/2019 06:19:25 Task [ 0] updates[ 94000] train loss[1.02059] remaining[0:14:16]
+09/26/2019 06:21:08 Task [ 0] updates[ 94500] train loss[1.02028] remaining[0:12:34]
+09/26/2019 06:22:51 Task [ 0] updates[ 95000] train loss[1.01999] remaining[0:10:51]
+09/26/2019 06:24:33 Task [ 0] updates[ 95500] train loss[1.01979] remaining[0:09:09]
+09/26/2019 06:26:16 Task [ 0] updates[ 96000] train loss[1.01947] remaining[0:07:26]
+09/26/2019 06:27:58 Task [ 0] updates[ 96500] train loss[1.01919] remaining[0:05:43]
+09/26/2019 06:29:42 Task [ 0] updates[ 97000] train loss[1.01884] remaining[0:04:01]
+09/26/2019 06:31:25 Task [ 0] updates[ 97500] train loss[1.01857] remaining[0:02:18]
+09/26/2019 06:33:07 Task [ 0] updates[ 98000] train loss[1.01837] remaining[0:00:36]
+09/26/2019 06:35:05 Task mnli_mismatched -- epoch 0 -- Dev ACC: 54.587
+09/26/2019 06:36:27 [new test scores saved.]
+09/26/2019 06:37:48 Task mnli_matched -- epoch 0 -- Dev ACC: 53.785
+09/26/2019 06:39:10 [new test scores saved.]
+09/26/2019 06:39:22 At epoch 1
+09/26/2019 06:40:29 Task [ 0] updates[ 98500] train loss[1.01803] remaining[5:36:07]
+09/26/2019 06:42:12 Task [ 0] updates[ 99000] train loss[1.01781] remaining[5:33:43]
+09/26/2019 06:43:55 Task [ 0] updates[ 99500] train loss[1.01747] remaining[5:31:48]
+09/26/2019 06:45:37 Task [ 0] updates[100000] train loss[1.01712] remaining[5:29:58]
+09/26/2019 06:47:20 Task [ 0] updates[100500] train loss[1.01680] remaining[5:28:20]
+09/26/2019 06:49:03 Task [ 0] updates[101000] train loss[1.01656] remaining[5:26:38]
+09/26/2019 06:50:46 Task [ 0] updates[101500] train loss[1.01629] remaining[5:24:56]
+09/26/2019 06:52:29 Task [ 0] updates[102000] train loss[1.01609] remaining[5:23:18]
+09/26/2019 06:54:11 Task [ 0] updates[102500] train loss[1.01590] remaining[5:21:27]
+09/26/2019 06:55:53 Task [ 0] updates[103000] train loss[1.01566] remaining[5:19:37]
+09/26/2019 06:57:36 Task [ 0] updates[103500] train loss[1.01528] remaining[5:17:56]
+09/26/2019 06:59:19 Task [ 0] updates[104000] train loss[1.01504] remaining[5:16:13]
+09/26/2019 07:01:02 Task [ 0] updates[104500] train loss[1.01469] remaining[5:14:29]
+09/26/2019 07:02:44 Task [ 0] updates[105000] train loss[1.01434] remaining[5:12:46]
+09/26/2019 07:04:27 Task [ 0] updates[105500] train loss[1.01401] remaining[5:11:08]
+09/26/2019 07:06:10 Task [ 0] updates[106000] train loss[1.01373] remaining[5:09:22]
+09/26/2019 07:07:53 Task [ 0] updates[106500] train loss[1.01343] remaining[5:07:41]
+09/26/2019 07:09:35 Task [ 0] updates[107000] train loss[1.01313] remaining[5:05:55]
+09/26/2019 07:11:18 Task [ 0] updates[107500] train loss[1.01294] remaining[5:04:15]
+09/26/2019 07:13:01 Task [ 0] updates[108000] train loss[1.01261] remaining[5:02:29]
+09/26/2019 07:14:44 Task [ 0] updates[108500] train loss[1.01236] remaining[5:00:51]
+09/26/2019 07:16:26 Task [ 0] updates[109000] train loss[1.01203] remaining[4:59:07]
+09/26/2019 07:18:09 Task [ 0] updates[109500] train loss[1.01170] remaining[4:57:24]
+09/26/2019 07:19:51 Task [ 0] updates[110000] train loss[1.01140] remaining[4:55:37]
+09/26/2019 07:21:34 Task [ 0] updates[110500] train loss[1.01127] remaining[4:53:54]
+09/26/2019 07:23:16 Task [ 0] updates[111000] train loss[1.01095] remaining[4:52:10]
+09/26/2019 07:24:59 Task [ 0] updates[111500] train loss[1.01062] remaining[4:50:28]
+09/26/2019 07:26:42 Task [ 0] updates[112000] train loss[1.01030] remaining[4:48:45]
+09/26/2019 07:28:24 Task [ 0] updates[112500] train loss[1.01008] remaining[4:47:02]
+09/26/2019 07:30:07 Task [ 0] updates[113000] train loss[1.00984] remaining[4:45:19]
+09/26/2019 07:31:50 Task [ 0] updates[113500] train loss[1.00953] remaining[4:43:40]
+09/26/2019 07:33:33 Task [ 0] updates[114000] train loss[1.00919] remaining[4:41:55]
+09/26/2019 07:35:16 Task [ 0] updates[114500] train loss[1.00899] remaining[4:40:13]
+09/26/2019 07:36:58 Task [ 0] updates[115000] train loss[1.00885] remaining[4:38:31]
+09/26/2019 07:38:41 Task [ 0] updates[115500] train loss[1.00859] remaining[4:36:47]
+09/26/2019 07:40:24 Task [ 0] updates[116000] train loss[1.00840] remaining[4:35:05]
+09/26/2019 07:42:06 Task [ 0] updates[116500] train loss[1.00806] remaining[4:33:21]
+09/26/2019 07:43:49 Task [ 0] updates[117000] train loss[1.00778] remaining[4:31:38]
+09/26/2019 07:45:31 Task [ 0] updates[117500] train loss[1.00746] remaining[4:29:54]
+09/26/2019 07:47:14 Task [ 0] updates[118000] train loss[1.00722] remaining[4:28:12]
+09/26/2019 07:48:57 Task [ 0] updates[118500] train loss[1.00698] remaining[4:26:30]
+09/26/2019 07:50:39 Task [ 0] updates[119000] train loss[1.00674] remaining[4:24:47]
+09/26/2019 07:52:22 Task [ 0] updates[119500] train loss[1.00646] remaining[4:23:04]
+09/26/2019 07:54:05 Task [ 0] updates[120000] train loss[1.00625] remaining[4:21:21]
+09/26/2019 07:55:48 Task [ 0] updates[120500] train loss[1.00607] remaining[4:19:40]
+09/26/2019 07:57:31 Task [ 0] updates[121000] train loss[1.00586] remaining[4:17:57]
+09/26/2019 07:59:13 Task [ 0] updates[121500] train loss[1.00561] remaining[4:16:14]
+09/26/2019 08:00:56 Task [ 0] updates[122000] train loss[1.00537] remaining[4:14:33]
+09/26/2019 08:02:39 Task [ 0] updates[122500] train loss[1.00520] remaining[4:12:51]
+09/26/2019 08:04:22 Task [ 0] updates[123000] train loss[1.00493] remaining[4:11:10]
+09/26/2019 08:06:06 Task [ 0] updates[123500] train loss[1.00458] remaining[4:09:29]
+09/26/2019 08:07:48 Task [ 0] updates[124000] train loss[1.00424] remaining[4:07:45]
+09/26/2019 08:09:31 Task [ 0] updates[124500] train loss[1.00400] remaining[4:06:02]
+09/26/2019 08:11:14 Task [ 0] updates[125000] train loss[1.00383] remaining[4:04:20]
+09/26/2019 08:12:57 Task [ 0] updates[125500] train loss[1.00356] remaining[4:02:37]
+09/26/2019 08:14:39 Task [ 0] updates[126000] train loss[1.00328] remaining[4:00:54]
+09/26/2019 08:16:22 Task [ 0] updates[126500] train loss[1.00301] remaining[3:59:12]
+09/26/2019 08:18:04 Task [ 0] updates[127000] train loss[1.00279] remaining[3:57:28]
+09/26/2019 08:19:47 Task [ 0] updates[127500] train loss[1.00251] remaining[3:55:45]
+09/26/2019 08:21:29 Task [ 0] updates[128000] train loss[1.00223] remaining[3:54:02]
+09/26/2019 08:23:12 Task [ 0] updates[128500] train loss[1.00205] remaining[3:52:18]
+09/26/2019 08:24:55 Task [ 0] updates[129000] train loss[1.00179] remaining[3:50:36]
+09/26/2019 08:26:38 Task [ 0] updates[129500] train loss[1.00151] remaining[3:48:54]
+09/26/2019 08:28:20 Task [ 0] updates[130000] train loss[1.00123] remaining[3:47:11]
+09/26/2019 08:30:03 Task [ 0] updates[130500] train loss[1.00100] remaining[3:45:27]
+09/26/2019 08:31:46 Task [ 0] updates[131000] train loss[1.00072] remaining[3:43:45]
+09/26/2019 08:33:28 Task [ 0] updates[131500] train loss[1.00041] remaining[3:42:03]
+09/26/2019 08:35:11 Task [ 0] updates[132000] train loss[1.00019] remaining[3:40:20]
+09/26/2019 08:36:54 Task [ 0] updates[132500] train loss[1.00000] remaining[3:38:37]
+09/26/2019 08:38:36 Task [ 0] updates[133000] train loss[0.99976] remaining[3:36:54]
+09/26/2019 08:40:19 Task [ 0] updates[133500] train loss[0.99951] remaining[3:35:11]
+09/26/2019 08:42:02 Task [ 0] updates[134000] train loss[0.99923] remaining[3:33:30]
+09/26/2019 08:43:45 Task [ 0] updates[134500] train loss[0.99901] remaining[3:31:47]
+09/26/2019 08:45:28 Task [ 0] updates[135000] train loss[0.99879] remaining[3:30:04]
+09/26/2019 08:47:10 Task [ 0] updates[135500] train loss[0.99853] remaining[3:28:21]
+09/26/2019 08:48:53 Task [ 0] updates[136000] train loss[0.99832] remaining[3:26:39]
+09/26/2019 08:50:36 Task [ 0] updates[136500] train loss[0.99812] remaining[3:24:56]
+09/26/2019 08:52:19 Task [ 0] updates[137000] train loss[0.99794] remaining[3:23:13]
+09/26/2019 08:54:02 Task [ 0] updates[137500] train loss[0.99771] remaining[3:21:31]
+09/26/2019 08:55:44 Task [ 0] updates[138000] train loss[0.99745] remaining[3:19:48]
+09/26/2019 08:57:27 Task [ 0] updates[138500] train loss[0.99726] remaining[3:18:05]
+09/26/2019 08:59:10 Task [ 0] updates[139000] train loss[0.99704] remaining[3:16:22]
+09/26/2019 09:00:52 Task [ 0] updates[139500] train loss[0.99679] remaining[3:14:39]
+09/26/2019 09:02:35 Task [ 0] updates[140000] train loss[0.99655] remaining[3:12:57]
+09/26/2019 09:04:18 Task [ 0] updates[140500] train loss[0.99629] remaining[3:11:14]
+09/26/2019 09:06:01 Task [ 0] updates[141000] train loss[0.99605] remaining[3:09:32]
+09/26/2019 09:07:43 Task [ 0] updates[141500] train loss[0.99592] remaining[3:07:49]
+09/26/2019 09:09:26 Task [ 0] updates[142000] train loss[0.99572] remaining[3:06:06]
+09/26/2019 09:11:08 Task [ 0] updates[142500] train loss[0.99552] remaining[3:04:23]
+09/26/2019 09:12:51 Task [ 0] updates[143000] train loss[0.99530] remaining[3:02:40]
+09/26/2019 09:14:34 Task [ 0] updates[143500] train loss[0.99514] remaining[3:00:58]
+09/26/2019 09:16:17 Task [ 0] updates[144000] train loss[0.99491] remaining[2:59:15]
+09/26/2019 09:17:59 Task [ 0] updates[144500] train loss[0.99468] remaining[2:57:32]
+09/26/2019 09:19:42 Task [ 0] updates[145000] train loss[0.99441] remaining[2:55:49]
+09/26/2019 09:21:24 Task [ 0] updates[145500] train loss[0.99424] remaining[2:54:06]
+09/26/2019 09:23:07 Task [ 0] updates[146000] train loss[0.99405] remaining[2:52:23]
+09/26/2019 09:24:50 Task [ 0] updates[146500] train loss[0.99376] remaining[2:50:41]
+09/26/2019 09:26:33 Task [ 0] updates[147000] train loss[0.99353] remaining[2:48:58]
+09/26/2019 09:28:15 Task [ 0] updates[147500] train loss[0.99339] remaining[2:47:15]
+09/26/2019 09:29:57 Task [ 0] updates[148000] train loss[0.99319] remaining[2:45:32]
+09/26/2019 09:31:40 Task [ 0] updates[148500] train loss[0.99294] remaining[2:43:49]
+09/26/2019 09:33:23 Task [ 0] updates[149000] train loss[0.99275] remaining[2:42:07]
+09/26/2019 09:35:06 Task [ 0] updates[149500] train loss[0.99253] remaining[2:40:24]
+09/26/2019 09:36:49 Task [ 0] updates[150000] train loss[0.99226] remaining[2:38:42]
+09/26/2019 09:38:31 Task [ 0] updates[150500] train loss[0.99209] remaining[2:36:59]
+09/26/2019 09:40:14 Task [ 0] updates[151000] train loss[0.99191] remaining[2:35:16]
+09/26/2019 09:41:56 Task [ 0] updates[151500] train loss[0.99172] remaining[2:33:33]
+09/26/2019 09:43:39 Task [ 0] updates[152000] train loss[0.99149] remaining[2:31:51]
+09/26/2019 09:45:21 Task [ 0] updates[152500] train loss[0.99132] remaining[2:30:07]
+09/26/2019 09:47:04 Task [ 0] updates[153000] train loss[0.99105] remaining[2:28:24]
+09/26/2019 09:48:47 Task [ 0] updates[153500] train loss[0.99069] remaining[2:26:42]
+09/26/2019 09:50:30 Task [ 0] updates[154000] train loss[0.99041] remaining[2:24:59]
+09/26/2019 09:52:12 Task [ 0] updates[154500] train loss[0.99024] remaining[2:23:17]
+09/26/2019 09:53:55 Task [ 0] updates[155000] train loss[0.99011] remaining[2:21:34]
+09/26/2019 09:55:38 Task [ 0] updates[155500] train loss[0.98995] remaining[2:19:51]
+09/26/2019 09:57:20 Task [ 0] updates[156000] train loss[0.98970] remaining[2:18:08]
+09/26/2019 09:59:03 Task [ 0] updates[156500] train loss[0.98950] remaining[2:16:25]
+09/26/2019 10:00:46 Task [ 0] updates[157000] train loss[0.98928] remaining[2:14:43]
+09/26/2019 10:02:29 Task [ 0] updates[157500] train loss[0.98913] remaining[2:13:01]
+09/26/2019 10:04:11 Task [ 0] updates[158000] train loss[0.98898] remaining[2:11:18]
+09/26/2019 10:05:54 Task [ 0] updates[158500] train loss[0.98879] remaining[2:09:35]
+09/26/2019 10:07:37 Task [ 0] updates[159000] train loss[0.98863] remaining[2:07:52]
+09/26/2019 10:09:19 Task [ 0] updates[159500] train loss[0.98847] remaining[2:06:09]
+09/26/2019 10:11:02 Task [ 0] updates[160000] train loss[0.98825] remaining[2:04:27]
+09/26/2019 10:12:45 Task [ 0] updates[160500] train loss[0.98804] remaining[2:02:44]
+09/26/2019 10:14:28 Task [ 0] updates[161000] train loss[0.98783] remaining[2:01:01]
+09/26/2019 10:16:10 Task [ 0] updates[161500] train loss[0.98770] remaining[1:59:19]
+09/26/2019 10:17:52 Task [ 0] updates[162000] train loss[0.98755] remaining[1:57:36]
+09/26/2019 10:19:35 Task [ 0] updates[162500] train loss[0.98734] remaining[1:55:53]
+09/26/2019 10:21:17 Task [ 0] updates[163000] train loss[0.98715] remaining[1:54:10]
+09/26/2019 10:23:00 Task [ 0] updates[163500] train loss[0.98690] remaining[1:52:27]
+09/26/2019 10:24:42 Task [ 0] updates[164000] train loss[0.98677] remaining[1:50:44]
+09/26/2019 10:26:25 Task [ 0] updates[164500] train loss[0.98656] remaining[1:49:02]
+09/26/2019 10:28:08 Task [ 0] updates[165000] train loss[0.98640] remaining[1:47:19]
+09/26/2019 10:29:51 Task [ 0] updates[165500] train loss[0.98624] remaining[1:45:36]
+09/26/2019 10:31:33 Task [ 0] updates[166000] train loss[0.98601] remaining[1:43:54]
+09/26/2019 10:33:16 Task [ 0] updates[166500] train loss[0.98583] remaining[1:42:11]
+09/26/2019 10:34:59 Task [ 0] updates[167000] train loss[0.98561] remaining[1:40:28]
+09/26/2019 10:36:41 Task [ 0] updates[167500] train loss[0.98548] remaining[1:38:45]
+09/26/2019 10:38:24 Task [ 0] updates[168000] train loss[0.98521] remaining[1:37:03]
+09/26/2019 10:40:07 Task [ 0] updates[168500] train loss[0.98497] remaining[1:35:20]
+09/26/2019 10:41:49 Task [ 0] updates[169000] train loss[0.98487] remaining[1:33:37]
+09/26/2019 10:43:32 Task [ 0] updates[169500] train loss[0.98464] remaining[1:31:55]
+09/26/2019 10:45:14 Task [ 0] updates[170000] train loss[0.98443] remaining[1:30:12]
+09/26/2019 10:46:57 Task [ 0] updates[170500] train loss[0.98430] remaining[1:28:29]
+09/26/2019 10:48:40 Task [ 0] updates[171000] train loss[0.98410] remaining[1:26:46]
+09/26/2019 10:50:23 Task [ 0] updates[171500] train loss[0.98390] remaining[1:25:04]
+09/26/2019 10:52:06 Task [ 0] updates[172000] train loss[0.98374] remaining[1:23:21]
+09/26/2019 10:53:49 Task [ 0] updates[172500] train loss[0.98351] remaining[1:21:39]
+09/26/2019 10:55:32 Task [ 0] updates[173000] train loss[0.98330] remaining[1:19:56]
+09/26/2019 10:57:14 Task [ 0] updates[173500] train loss[0.98312] remaining[1:18:13]
+09/26/2019 10:58:57 Task [ 0] updates[174000] train loss[0.98293] remaining[1:16:31]
+09/26/2019 11:00:40 Task [ 0] updates[174500] train loss[0.98274] remaining[1:14:48]
+09/26/2019 11:02:23 Task [ 0] updates[175000] train loss[0.98258] remaining[1:13:05]
+09/26/2019 11:04:05 Task [ 0] updates[175500] train loss[0.98246] remaining[1:11:23]
+09/26/2019 11:05:48 Task [ 0] updates[176000] train loss[0.98227] remaining[1:09:40]
+09/26/2019 11:07:30 Task [ 0] updates[176500] train loss[0.98202] remaining[1:07:57]
+09/26/2019 11:09:13 Task [ 0] updates[177000] train loss[0.98186] remaining[1:06:14]
+09/26/2019 11:10:56 Task [ 0] updates[177500] train loss[0.98171] remaining[1:04:32]
+09/26/2019 11:12:39 Task [ 0] updates[178000] train loss[0.98151] remaining[1:02:49]
+09/26/2019 11:14:21 Task [ 0] updates[178500] train loss[0.98133] remaining[1:01:06]
+09/26/2019 11:16:04 Task [ 0] updates[179000] train loss[0.98115] remaining[0:59:24]
+09/26/2019 11:17:46 Task [ 0] updates[179500] train loss[0.98095] remaining[0:57:41]
+09/26/2019 11:19:29 Task [ 0] updates[180000] train loss[0.98077] remaining[0:55:58]
+09/26/2019 11:21:11 Task [ 0] updates[180500] train loss[0.98058] remaining[0:54:15]
+09/26/2019 11:22:54 Task [ 0] updates[181000] train loss[0.98039] remaining[0:52:33]
+09/26/2019 11:24:37 Task [ 0] updates[181500] train loss[0.98024] remaining[0:50:50]
+09/26/2019 11:26:20 Task [ 0] updates[182000] train loss[0.97997] remaining[0:49:07]
+09/26/2019 11:28:02 Task [ 0] updates[182500] train loss[0.97982] remaining[0:47:25]
+09/26/2019 11:29:45 Task [ 0] updates[183000] train loss[0.97966] remaining[0:45:42]
+09/26/2019 11:31:27 Task [ 0] updates[183500] train loss[0.97951] remaining[0:43:59]
+09/26/2019 11:33:11 Task [ 0] updates[184000] train loss[0.97935] remaining[0:42:17]
+09/26/2019 11:34:53 Task [ 0] updates[184500] train loss[0.97916] remaining[0:40:34]
+09/26/2019 11:36:36 Task [ 0] updates[185000] train loss[0.97894] remaining[0:38:51]
+09/26/2019 11:38:19 Task [ 0] updates[185500] train loss[0.97876] remaining[0:37:09]
+09/26/2019 11:40:02 Task [ 0] updates[186000] train loss[0.97861] remaining[0:35:26]
+09/26/2019 11:41:44 Task [ 0] updates[186500] train loss[0.97840] remaining[0:33:43]
+09/26/2019 11:43:27 Task [ 0] updates[187000] train loss[0.97822] remaining[0:32:00]
+09/26/2019 11:45:10 Task [ 0] updates[187500] train loss[0.97807] remaining[0:30:18]
+09/26/2019 11:46:53 Task [ 0] updates[188000] train loss[0.97785] remaining[0:28:35]
+09/26/2019 11:48:35 Task [ 0] updates[188500] train loss[0.97777] remaining[0:26:52]
+09/26/2019 11:50:18 Task [ 0] updates[189000] train loss[0.97758] remaining[0:25:10]
+09/26/2019 11:52:00 Task [ 0] updates[189500] train loss[0.97741] remaining[0:23:27]
+09/26/2019 11:53:43 Task [ 0] updates[190000] train loss[0.97721] remaining[0:21:44]
+09/26/2019 11:55:26 Task [ 0] updates[190500] train loss[0.97709] remaining[0:20:01]
+09/26/2019 11:57:08 Task [ 0] updates[191000] train loss[0.97695] remaining[0:18:19]
+09/26/2019 11:58:51 Task [ 0] updates[191500] train loss[0.97683] remaining[0:16:36]
+09/27/2019 12:00:34 Task [ 0] updates[192000] train loss[0.97663] remaining[0:14:53]
+09/27/2019 12:02:17 Task [ 0] updates[192500] train loss[0.97649] remaining[0:13:11]
+09/27/2019 12:03:59 Task [ 0] updates[193000] train loss[0.97624] remaining[0:11:28]
+09/27/2019 12:05:42 Task [ 0] updates[193500] train loss[0.97603] remaining[0:09:45]
+09/27/2019 12:07:25 Task [ 0] updates[194000] train loss[0.97586] remaining[0:08:03]
+09/27/2019 12:09:07 Task [ 0] updates[194500] train loss[0.97565] remaining[0:06:20]
+09/27/2019 12:10:50 Task [ 0] updates[195000] train loss[0.97548] remaining[0:04:37]
+09/27/2019 12:12:33 Task [ 0] updates[195500] train loss[0.97528] remaining[0:02:55]
+09/27/2019 12:14:16 Task [ 0] updates[196000] train loss[0.97502] remaining[0:01:12]
+09/27/2019 12:16:50 Task mnli_mismatched -- epoch 1 -- Dev ACC: 58.167
+09/27/2019 12:18:12 [new test scores saved.]
+09/27/2019 12:19:33 Task mnli_matched -- epoch 1 -- Dev ACC: 58.115
+09/27/2019 12:20:54 [new test scores saved.]
+09/27/2019 12:21:07 At epoch 2
+09/27/2019 12:21:37 Task [ 0] updates[196500] train loss[0.97484] remaining[5:38:38]
+09/27/2019 12:23:20 Task [ 0] updates[197000] train loss[0.97474] remaining[5:34:54]
+09/27/2019 12:25:03 Task [ 0] updates[197500] train loss[0.97460] remaining[5:33:30]
+09/27/2019 12:26:46 Task [ 0] updates[198000] train loss[0.97437] remaining[5:31:37]
+09/27/2019 12:28:29 Task [ 0] updates[198500] train loss[0.97417] remaining[5:29:32]
+09/27/2019 12:30:12 Task [ 0] updates[199000] train loss[0.97392] remaining[5:27:47]
+09/27/2019 12:31:54 Task [ 0] updates[199500] train loss[0.97376] remaining[5:25:45]
+09/27/2019 12:33:37 Task [ 0] updates[200000] train loss[0.97359] remaining[5:24:06]
+09/27/2019 12:35:19 Task [ 0] updates[200500] train loss[0.97340] remaining[5:22:09]
+09/27/2019 12:37:02 Task [ 0] updates[201000] train loss[0.97321] remaining[5:20:21]
+09/27/2019 12:38:45 Task [ 0] updates[201500] train loss[0.97304] remaining[5:18:37]
+09/27/2019 12:40:27 Task [ 0] updates[202000] train loss[0.97286] remaining[5:16:54]
+09/27/2019 12:42:10 Task [ 0] updates[202500] train loss[0.97268] remaining[5:15:05]
+09/27/2019 12:43:52 Task [ 0] updates[203000] train loss[0.97250] remaining[5:13:22]
+09/27/2019 12:45:35 Task [ 0] updates[203500] train loss[0.97228] remaining[5:11:36]
+09/27/2019 12:47:17 Task [ 0] updates[204000] train loss[0.97207] remaining[5:09:49]
+09/27/2019 12:49:00 Task [ 0] updates[204500] train loss[0.97182] remaining[5:08:05]
+09/27/2019 12:50:42 Task [ 0] updates[205000] train loss[0.97171] remaining[5:06:21]
+09/27/2019 12:52:25 Task [ 0] updates[205500] train loss[0.97147] remaining[5:04:40]
+09/27/2019 12:54:08 Task [ 0] updates[206000] train loss[0.97126] remaining[5:02:56]
+09/27/2019 12:55:50 Task [ 0] updates[206500] train loss[0.97105] remaining[5:01:10]
+09/27/2019 12:57:33 Task [ 0] updates[207000] train loss[0.97087] remaining[4:59:27]
+09/27/2019 12:59:15 Task [ 0] updates[207500] train loss[0.97063] remaining[4:57:42]
+09/27/2019 01:00:58 Task [ 0] updates[208000] train loss[0.97048] remaining[4:56:00]
+09/27/2019 01:02:40 Task [ 0] updates[208500] train loss[0.97031] remaining[4:54:16]
+09/27/2019 01:04:23 Task [ 0] updates[209000] train loss[0.97007] remaining[4:52:35]
+09/27/2019 01:06:06 Task [ 0] updates[209500] train loss[0.96988] remaining[4:50:53]
+09/27/2019 01:07:48 Task [ 0] updates[210000] train loss[0.96972] remaining[4:49:09]
+09/27/2019 01:09:31 Task [ 0] updates[210500] train loss[0.96953] remaining[4:47:27]
+09/27/2019 01:11:14 Task [ 0] updates[211000] train loss[0.96933] remaining[4:45:46]
+09/27/2019 01:12:56 Task [ 0] updates[211500] train loss[0.96918] remaining[4:44:03]
+09/27/2019 01:14:39 Task [ 0] updates[212000] train loss[0.96907] remaining[4:42:22]
+09/27/2019 01:16:22 Task [ 0] updates[212500] train loss[0.96886] remaining[4:40:40]
+09/27/2019 01:18:04 Task [ 0] updates[213000] train loss[0.96862] remaining[4:38:57]
+09/27/2019 01:19:47 Task [ 0] updates[213500] train loss[0.96844] remaining[4:37:12]
+09/27/2019 01:21:29 Task [ 0] updates[214000] train loss[0.96826] remaining[4:35:29]
+09/27/2019 01:23:12 Task [ 0] updates[214500] train loss[0.96805] remaining[4:33:46]
+09/27/2019 01:24:55 Task [ 0] updates[215000] train loss[0.96789] remaining[4:32:04]
+09/27/2019 01:26:37 Task [ 0] updates[215500] train loss[0.96768] remaining[4:30:22]
+09/27/2019 01:28:20 Task [ 0] updates[216000] train loss[0.96754] remaining[4:28:39]
+09/27/2019 01:30:02 Task [ 0] updates[216500] train loss[0.96740] remaining[4:26:55]
+09/27/2019 01:31:45 Task [ 0] updates[217000] train loss[0.96722] remaining[4:25:14]
+09/27/2019 01:33:28 Task [ 0] updates[217500] train loss[0.96710] remaining[4:23:32]
+09/27/2019 01:35:10 Task [ 0] updates[218000] train loss[0.96697] remaining[4:21:48]
+09/27/2019 01:36:53 Task [ 0] updates[218500] train loss[0.96676] remaining[4:20:05]
+09/27/2019 01:38:36 Task [ 0] updates[219000] train loss[0.96661] remaining[4:18:23]
+09/27/2019 01:40:18 Task [ 0] updates[219500] train loss[0.96643] remaining[4:16:39]
+09/27/2019 01:42:01 Task [ 0] updates[220000] train loss[0.96627] remaining[4:14:57]
+09/27/2019 01:43:43 Task [ 0] updates[220500] train loss[0.96612] remaining[4:13:14]
+09/27/2019 01:45:26 Task [ 0] updates[221000] train loss[0.96597] remaining[4:11:33]
+09/27/2019 01:47:09 Task [ 0] updates[221500] train loss[0.96582] remaining[4:09:50]
+09/27/2019 01:48:52 Task [ 0] updates[222000] train loss[0.96566] remaining[4:08:08]
+09/27/2019 01:50:34 Task [ 0] updates[222500] train loss[0.96549] remaining[4:06:25]
+09/27/2019 01:52:17 Task [ 0] updates[223000] train loss[0.96531] remaining[4:04:42]
+09/27/2019 01:53:59 Task [ 0] updates[223500] train loss[0.96517] remaining[4:02:58]
+09/27/2019 01:55:41 Task [ 0] updates[224000] train loss[0.96499] remaining[4:01:16]
+09/27/2019 01:57:24 Task [ 0] updates[224500] train loss[0.96484] remaining[3:59:34]
+09/27/2019 01:59:07 Task [ 0] updates[225000] train loss[0.96471] remaining[3:57:51]
+09/27/2019 02:00:50 Task [ 0] updates[225500] train loss[0.96459] remaining[3:56:09]
+09/27/2019 02:02:32 Task [ 0] updates[226000] train loss[0.96447] remaining[3:54:26]
+09/27/2019 02:04:15 Task [ 0] updates[226500] train loss[0.96427] remaining[3:52:43]
+09/27/2019 02:05:57 Task [ 0] updates[227000] train loss[0.96412] remaining[3:51:00]
+09/27/2019 02:07:40 Task [ 0] updates[227500] train loss[0.96397] remaining[3:49:18]
+09/27/2019 02:09:23 Task [ 0] updates[228000] train loss[0.96379] remaining[3:47:36]
+09/27/2019 02:11:05 Task [ 0] updates[228500] train loss[0.96366] remaining[3:45:53]
+09/27/2019 02:12:48 Task [ 0] updates[229000] train loss[0.96355] remaining[3:44:10]
+09/27/2019 02:14:30 Task [ 0] updates[229500] train loss[0.96339] remaining[3:42:27]
+09/27/2019 02:16:14 Task [ 0] updates[230000] train loss[0.96323] remaining[3:40:45]
+09/27/2019 02:17:57 Task [ 0] updates[230500] train loss[0.96312] remaining[3:39:03]
+09/27/2019 02:19:39 Task [ 0] updates[231000] train loss[0.96297] remaining[3:37:21]
+09/27/2019 02:21:22 Task [ 0] updates[231500] train loss[0.96278] remaining[3:35:38]
+09/27/2019 02:23:05 Task [ 0] updates[232000] train loss[0.96262] remaining[3:33:56]
+09/27/2019 02:24:48 Task [ 0] updates[232500] train loss[0.96249] remaining[3:32:14]
+09/27/2019 02:26:30 Task [ 0] updates[233000] train loss[0.96229] remaining[3:30:31]
+09/27/2019 02:28:14 Task [ 0] updates[233500] train loss[0.96217] remaining[3:28:49]
+09/27/2019 02:29:57 Task [ 0] updates[234000] train loss[0.96204] remaining[3:27:07]
+09/27/2019 02:31:39 Task [ 0] updates[234500] train loss[0.96190] remaining[3:25:24]
+09/27/2019 02:33:22 Task [ 0] updates[235000] train loss[0.96172] remaining[3:23:42]
+09/27/2019 02:35:05 Task [ 0] updates[235500] train loss[0.96156] remaining[3:21:59]
+09/27/2019 02:36:47 Task [ 0] updates[236000] train loss[0.96141] remaining[3:20:17]
+09/27/2019 02:38:30 Task [ 0] updates[236500] train loss[0.96121] remaining[3:18:34]
+09/27/2019 02:40:13 Task [ 0] updates[237000] train loss[0.96108] remaining[3:16:52]
+09/27/2019 02:41:56 Task [ 0] updates[237500] train loss[0.96092] remaining[3:15:09]
+09/27/2019 02:43:39 Task [ 0] updates[238000] train loss[0.96079] remaining[3:13:27]
+09/27/2019 02:45:21 Task [ 0] updates[238500] train loss[0.96058] remaining[3:11:44]
+09/27/2019 02:47:03 Task [ 0] updates[239000] train loss[0.96038] remaining[3:10:01]
+09/27/2019 02:48:46 Task [ 0] updates[239500] train loss[0.96020] remaining[3:08:18]
+09/27/2019 02:50:29 Task [ 0] updates[240000] train loss[0.96003] remaining[3:06:35]
+09/27/2019 02:52:11 Task [ 0] updates[240500] train loss[0.95991] remaining[3:04:52]
+09/27/2019 02:53:54 Task [ 0] updates[241000] train loss[0.95971] remaining[3:03:10]
+09/27/2019 02:55:36 Task [ 0] updates[241500] train loss[0.95956] remaining[3:01:27]
+09/27/2019 02:57:19 Task [ 0] updates[242000] train loss[0.95940] remaining[2:59:44]
+09/27/2019 02:59:01 Task [ 0] updates[242500] train loss[0.95923] remaining[2:58:01]
+09/27/2019 03:00:44 Task [ 0] updates[243000] train loss[0.95909] remaining[2:56:19]
+09/27/2019 03:02:26 Task [ 0] updates[243500] train loss[0.95891] remaining[2:54:36]
+09/27/2019 03:04:09 Task [ 0] updates[244000] train loss[0.95879] remaining[2:52:53]
+09/27/2019 03:05:52 Task [ 0] updates[244500] train loss[0.95867] remaining[2:51:11]
+09/27/2019 03:07:35 Task [ 0] updates[245000] train loss[0.95847] remaining[2:49:29]
+09/27/2019 03:09:18 Task [ 0] updates[245500] train loss[0.95832] remaining[2:47:46]
+09/27/2019 03:11:01 Task [ 0] updates[246000] train loss[0.95813] remaining[2:46:04]
+09/27/2019 03:12:43 Task [ 0] updates[246500] train loss[0.95805] remaining[2:44:21]
+09/27/2019 03:14:26 Task [ 0] updates[247000] train loss[0.95787] remaining[2:42:38]
+09/27/2019 03:16:09 Task [ 0] updates[247500] train loss[0.95768] remaining[2:40:56]
+09/27/2019 03:17:51 Task [ 0] updates[248000] train loss[0.95748] remaining[2:39:13]
+09/27/2019 03:19:34 Task [ 0] updates[248500] train loss[0.95738] remaining[2:37:30]
+09/27/2019 03:21:16 Task [ 0] updates[249000] train loss[0.95720] remaining[2:35:47]
+09/27/2019 03:22:59 Task [ 0] updates[249500] train loss[0.95708] remaining[2:34:05]
+09/27/2019 03:24:42 Task [ 0] updates[250000] train loss[0.95688] remaining[2:32:22]
+09/27/2019 03:26:25 Task [ 0] updates[250500] train loss[0.95672] remaining[2:30:40]
+09/27/2019 03:28:08 Task [ 0] updates[251000] train loss[0.95660] remaining[2:28:57]
+09/27/2019 03:29:51 Task [ 0] updates[251500] train loss[0.95644] remaining[2:27:15]
+09/27/2019 03:31:33 Task [ 0] updates[252000] train loss[0.95628] remaining[2:25:32]
+09/27/2019 03:33:16 Task [ 0] updates[252500] train loss[0.95610] remaining[2:23:49]
+09/27/2019 03:34:59 Task [ 0] updates[253000] train loss[0.95598] remaining[2:22:07]
+09/27/2019 03:36:42 Task [ 0] updates[253500] train loss[0.95581] remaining[2:20:24]
+09/27/2019 03:38:24 Task [ 0] updates[254000] train loss[0.95566] remaining[2:18:42]
+09/27/2019 03:40:07 Task [ 0] updates[254500] train loss[0.95551] remaining[2:16:59]
+09/27/2019 03:41:50 Task [ 0] updates[255000] train loss[0.95534] remaining[2:15:16]
+09/27/2019 03:43:33 Task [ 0] updates[255500] train loss[0.95517] remaining[2:13:34]
+09/27/2019 03:45:15 Task [ 0] updates[256000] train loss[0.95501] remaining[2:11:51]
+09/27/2019 03:46:58 Task [ 0] updates[256500] train loss[0.95481] remaining[2:10:08]
+09/27/2019 03:48:40 Task [ 0] updates[257000] train loss[0.95467] remaining[2:08:26]
+09/27/2019 03:50:23 Task [ 0] updates[257500] train loss[0.95451] remaining[2:06:43]
+09/27/2019 03:52:06 Task [ 0] updates[258000] train loss[0.95435] remaining[2:05:00]
+09/27/2019 03:53:48 Task [ 0] updates[258500] train loss[0.95419] remaining[2:03:17]
+09/27/2019 03:55:31 Task [ 0] updates[259000] train loss[0.95406] remaining[2:01:35]
+09/27/2019 03:57:14 Task [ 0] updates[259500] train loss[0.95390] remaining[1:59:52]
+09/27/2019 03:58:57 Task [ 0] updates[260000] train loss[0.95373] remaining[1:58:10]
+09/27/2019 04:00:39 Task [ 0] updates[260500] train loss[0.95359] remaining[1:56:27]
+09/27/2019 04:02:23 Task [ 0] updates[261000] train loss[0.95347] remaining[1:54:45]
+09/27/2019 04:04:06 Task [ 0] updates[261500] train loss[0.95331] remaining[1:53:02]
+09/27/2019 04:05:49 Task [ 0] updates[262000] train loss[0.95314] remaining[1:51:20]
+09/27/2019 04:07:31 Task [ 0] updates[262500] train loss[0.95302] remaining[1:49:37]
+09/27/2019 04:09:14 Task [ 0] updates[263000] train loss[0.95288] remaining[1:47:54]
+09/27/2019 04:10:57 Task [ 0] updates[263500] train loss[0.95275] remaining[1:46:12]
+09/27/2019 04:12:40 Task [ 0] updates[264000] train loss[0.95263] remaining[1:44:29]
+09/27/2019 04:14:22 Task [ 0] updates[264500] train loss[0.95249] remaining[1:42:46]
+09/27/2019 04:16:05 Task [ 0] updates[265000] train loss[0.95231] remaining[1:41:04]
+09/27/2019 04:17:48 Task [ 0] updates[265500] train loss[0.95215] remaining[1:39:21]
+09/27/2019 04:19:31 Task [ 0] updates[266000] train loss[0.95203] remaining[1:37:38]
+09/27/2019 04:21:14 Task [ 0] updates[266500] train loss[0.95186] remaining[1:35:56]
+09/27/2019 04:22:57 Task [ 0] updates[267000] train loss[0.95167] remaining[1:34:13]
+09/27/2019 04:24:39 Task [ 0] updates[267500] train loss[0.95151] remaining[1:32:31]
+09/27/2019 04:26:22 Task [ 0] updates[268000] train loss[0.95136] remaining[1:30:48]
+09/27/2019 04:28:04 Task [ 0] updates[268500] train loss[0.95124] remaining[1:29:05]
+09/27/2019 04:29:47 Task [ 0] updates[269000] train loss[0.95115] remaining[1:27:22]
+09/27/2019 04:31:30 Task [ 0] updates[269500] train loss[0.95104] remaining[1:25:40]
+09/27/2019 04:33:12 Task [ 0] updates[270000] train loss[0.95090] remaining[1:23:57]
+09/27/2019 04:34:55 Task [ 0] updates[270500] train loss[0.95073] remaining[1:22:14]
+09/27/2019 04:36:37 Task [ 0] updates[271000] train loss[0.95061] remaining[1:20:32]
+09/27/2019 04:38:20 Task [ 0] updates[271500] train loss[0.95045] remaining[1:18:49]
+09/27/2019 04:40:02 Task [ 0] updates[272000] train loss[0.95028] remaining[1:17:06]
+09/27/2019 04:41:44 Task [ 0] updates[272500] train loss[0.95011] remaining[1:15:23]
+09/27/2019 04:43:27 Task [ 0] updates[273000] train loss[0.94996] remaining[1:13:41]
+09/27/2019 04:45:10 Task [ 0] updates[273500] train loss[0.94983] remaining[1:11:58]
+09/27/2019 04:46:52 Task [ 0] updates[274000] train loss[0.94968] remaining[1:10:15]
+09/27/2019 04:48:35 Task [ 0] updates[274500] train loss[0.94954] remaining[1:08:32]
+09/27/2019 04:50:17 Task [ 0] updates[275000] train loss[0.94936] remaining[1:06:50]
+09/27/2019 04:52:00 Task [ 0] updates[275500] train loss[0.94921] remaining[1:05:07]
+09/27/2019 04:53:42 Task [ 0] updates[276000] train loss[0.94910] remaining[1:03:24]
+09/27/2019 04:55:25 Task [ 0] updates[276500] train loss[0.94891] remaining[1:01:41]
+09/27/2019 04:57:08 Task [ 0] updates[277000] train loss[0.94884] remaining[0:59:59]
+09/27/2019 04:58:50 Task [ 0] updates[277500] train loss[0.94872] remaining[0:58:16]
+09/27/2019 05:00:32 Task [ 0] updates[278000] train loss[0.94859] remaining[0:56:33]
+09/27/2019 05:02:15 Task [ 0] updates[278500] train loss[0.94840] remaining[0:54:51]
+09/27/2019 05:03:58 Task [ 0] updates[279000] train loss[0.94826] remaining[0:53:08]
+09/27/2019 05:05:41 Task [ 0] updates[279500] train loss[0.94812] remaining[0:51:25]
+09/27/2019 05:07:23 Task [ 0] updates[280000] train loss[0.94797] remaining[0:49:43]
+09/27/2019 05:09:06 Task [ 0] updates[280500] train loss[0.94780] remaining[0:48:00]
+09/27/2019 05:10:49 Task [ 0] updates[281000] train loss[0.94770] remaining[0:46:17]
+09/27/2019 05:12:31 Task [ 0] updates[281500] train loss[0.94758] remaining[0:44:35]
+09/27/2019 05:14:14 Task [ 0] updates[282000] train loss[0.94748] remaining[0:42:52]
+09/27/2019 05:15:57 Task [ 0] updates[282500] train loss[0.94735] remaining[0:41:09]
+09/27/2019 05:17:40 Task [ 0] updates[283000] train loss[0.94721] remaining[0:39:27]
+09/27/2019 05:19:23 Task [ 0] updates[283500] train loss[0.94709] remaining[0:37:44]
+09/27/2019 05:21:06 Task [ 0] updates[284000] train loss[0.94690] remaining[0:36:01]
+09/27/2019 05:22:48 Task [ 0] updates[284500] train loss[0.94678] remaining[0:34:19]
+09/27/2019 05:24:31 Task [ 0] updates[285000] train loss[0.94667] remaining[0:32:36]
+09/27/2019 05:26:14 Task [ 0] updates[285500] train loss[0.94652] remaining[0:30:53]
+09/27/2019 05:27:57 Task [ 0] updates[286000] train loss[0.94646] remaining[0:29:11]
+09/27/2019 05:29:39 Task [ 0] updates[286500] train loss[0.94631] remaining[0:27:28]
+09/27/2019 05:31:22 Task [ 0] updates[287000] train loss[0.94619] remaining[0:25:45]
+09/27/2019 05:33:05 Task [ 0] updates[287500] train loss[0.94609] remaining[0:24:03]
+09/27/2019 05:34:47 Task [ 0] updates[288000] train loss[0.94600] remaining[0:22:20]
+09/27/2019 05:36:30 Task [ 0] updates[288500] train loss[0.94588] remaining[0:20:37]
+09/27/2019 05:38:12 Task [ 0] updates[289000] train loss[0.94572] remaining[0:18:55]
+09/27/2019 05:39:55 Task [ 0] updates[289500] train loss[0.94561] remaining[0:17:12]
+09/27/2019 05:41:38 Task [ 0] updates[290000] train loss[0.94551] remaining[0:15:29]
+09/27/2019 05:43:21 Task [ 0] updates[290500] train loss[0.94542] remaining[0:13:47]
+09/27/2019 05:45:03 Task [ 0] updates[291000] train loss[0.94531] remaining[0:12:04]
+09/27/2019 05:46:45 Task [ 0] updates[291500] train loss[0.94516] remaining[0:10:21]
+09/27/2019 05:48:28 Task [ 0] updates[292000] train loss[0.94505] remaining[0:08:39]
+09/27/2019 05:50:11 Task [ 0] updates[292500] train loss[0.94489] remaining[0:06:56]
+09/27/2019 05:51:53 Task [ 0] updates[293000] train loss[0.94478] remaining[0:05:13]
+09/27/2019 05:53:35 Task [ 0] updates[293500] train loss[0.94466] remaining[0:03:31]
+09/27/2019 05:55:18 Task [ 0] updates[294000] train loss[0.94451] remaining[0:01:48]
+09/27/2019 05:57:01 Task [ 0] updates[294500] train loss[0.94435] remaining[0:00:05]
+09/27/2019 05:58:28 Task mnli_mismatched -- epoch 2 -- Dev ACC: 62.734
+09/27/2019 05:59:50 [new test scores saved.]
+09/27/2019 06:01:11 Task mnli_matched -- epoch 2 -- Dev ACC: 61.355
+09/27/2019 06:02:32 [new test scores saved.]
+09/27/2019 06:02:44 At epoch 3
+09/27/2019 06:04:22 Task [ 0] updates[295000] train loss[0.94422] remaining[5:35:44]
+09/27/2019 06:06:04 Task [ 0] updates[295500] train loss[0.94407] remaining[5:33:16]
+09/27/2019 06:07:47 Task [ 0] updates[296000] train loss[0.94387] remaining[5:31:29]
+09/27/2019 06:09:30 Task [ 0] updates[296500] train loss[0.94371] remaining[5:29:28]
+09/27/2019 06:11:12 Task [ 0] updates[297000] train loss[0.94355] remaining[5:27:29]
+09/27/2019 06:12:54 Task [ 0] updates[297500] train loss[0.94339] remaining[5:25:32]
+09/27/2019 06:14:37 Task [ 0] updates[298000] train loss[0.94319] remaining[5:23:56]
+09/27/2019 06:16:20 Task [ 0] updates[298500] train loss[0.94304] remaining[5:22:09]
+09/27/2019 06:18:02 Task [ 0] updates[299000] train loss[0.94287] remaining[5:20:26]
+09/27/2019 06:19:44 Task [ 0] updates[299500] train loss[0.94271] remaining[5:18:38]
+09/27/2019 06:21:27 Task [ 0] updates[300000] train loss[0.94257] remaining[5:16:59]
+09/27/2019 06:23:10 Task [ 0] updates[300500] train loss[0.94244] remaining[5:15:24]
+09/27/2019 06:24:53 Task [ 0] updates[301000] train loss[0.94225] remaining[5:13:44]
+09/27/2019 06:26:35 Task [ 0] updates[301500] train loss[0.94205] remaining[5:11:56]
+09/27/2019 06:28:18 Task [ 0] updates[302000] train loss[0.94191] remaining[5:10:18]
+09/27/2019 06:30:01 Task [ 0] updates[302500] train loss[0.94175] remaining[5:08:32]
+09/27/2019 06:31:43 Task [ 0] updates[303000] train loss[0.94160] remaining[5:06:52]
+09/27/2019 06:33:26 Task [ 0] updates[303500] train loss[0.94143] remaining[5:05:11]
+09/27/2019 06:35:09 Task [ 0] updates[304000] train loss[0.94129] remaining[5:03:28]
+09/27/2019 06:36:52 Task [ 0] updates[304500] train loss[0.94109] remaining[5:01:47]
+09/27/2019 06:38:35 Task [ 0] updates[305000] train loss[0.94100] remaining[5:00:08]
+09/27/2019 06:40:18 Task [ 0] updates[305500] train loss[0.94088] remaining[4:58:27]
+09/27/2019 06:42:01 Task [ 0] updates[306000] train loss[0.94070] remaining[4:56:47]
+09/27/2019 06:43:43 Task [ 0] updates[306500] train loss[0.94054] remaining[4:55:03]
+09/27/2019 06:45:26 Task [ 0] updates[307000] train loss[0.94035] remaining[4:53:22]
+09/27/2019 06:47:09 Task [ 0] updates[307500] train loss[0.94023] remaining[4:51:40]
+09/27/2019 06:48:52 Task [ 0] updates[308000] train loss[0.94009] remaining[4:49:58]
+09/27/2019 06:50:34 Task [ 0] updates[308500] train loss[0.93997] remaining[4:48:15]
+09/27/2019 06:52:17 Task [ 0] updates[309000] train loss[0.93983] remaining[4:46:32]
+09/27/2019 06:53:59 Task [ 0] updates[309500] train loss[0.93967] remaining[4:44:48]
+09/27/2019 06:55:42 Task [ 0] updates[310000] train loss[0.93953] remaining[4:43:06]
+09/27/2019 06:57:25 Task [ 0] updates[310500] train loss[0.93937] remaining[4:41:22]
+09/27/2019 06:59:08 Task [ 0] updates[311000] train loss[0.93922] remaining[4:39:41]
+09/27/2019 07:00:50 Task [ 0] updates[311500] train loss[0.93910] remaining[4:37:58]
+09/27/2019 07:02:33 Task [ 0] updates[312000] train loss[0.93892] remaining[4:36:16]
+09/27/2019 07:04:16 Task [ 0] updates[312500] train loss[0.93876] remaining[4:34:34]
+09/27/2019 07:05:59 Task [ 0] updates[313000] train loss[0.93861] remaining[4:32:50]
+09/27/2019 07:07:41 Task [ 0] updates[313500] train loss[0.93850] remaining[4:31:08]
+09/27/2019 07:09:24 Task [ 0] updates[314000] train loss[0.93834] remaining[4:29:25]
+09/27/2019 07:11:07 Task [ 0] updates[314500] train loss[0.93817] remaining[4:27:42]
+09/27/2019 07:12:50 Task [ 0] updates[315000] train loss[0.93804] remaining[4:26:01]
+09/27/2019 07:14:33 Task [ 0] updates[315500] train loss[0.93786] remaining[4:24:19]
+09/27/2019 07:16:15 Task [ 0] updates[316000] train loss[0.93772] remaining[4:22:36]
+09/27/2019 07:17:58 Task [ 0] updates[316500] train loss[0.93762] remaining[4:20:53]
+09/27/2019 07:19:40 Task [ 0] updates[317000] train loss[0.93746] remaining[4:19:10]
+09/27/2019 07:21:23 Task [ 0] updates[317500] train loss[0.93732] remaining[4:17:28]
+09/27/2019 07:23:06 Task [ 0] updates[318000] train loss[0.93716] remaining[4:15:45]
+09/27/2019 07:24:49 Task [ 0] updates[318500] train loss[0.93705] remaining[4:14:03]
+09/27/2019 07:26:32 Task [ 0] updates[319000] train loss[0.93686] remaining[4:12:20]
+09/27/2019 07:28:14 Task [ 0] updates[319500] train loss[0.93673] remaining[4:10:37]
+09/27/2019 07:29:57 Task [ 0] updates[320000] train loss[0.93658] remaining[4:08:54]
+09/27/2019 07:31:39 Task [ 0] updates[320500] train loss[0.93646] remaining[4:07:10]
+09/27/2019 07:33:22 Task [ 0] updates[321000] train loss[0.93633] remaining[4:05:28]
+09/27/2019 07:35:04 Task [ 0] updates[321500] train loss[0.93617] remaining[4:03:44]
+09/27/2019 07:36:47 Task [ 0] updates[322000] train loss[0.93604] remaining[4:02:01]
+09/27/2019 07:38:30 Task [ 0] updates[322500] train loss[0.93589] remaining[4:00:20]
+09/27/2019 07:40:13 Task [ 0] updates[323000] train loss[0.93577] remaining[3:58:38]
+09/27/2019 07:41:56 Task [ 0] updates[323500] train loss[0.93560] remaining[3:56:55]
+09/27/2019 07:43:39 Task [ 0] updates[324000] train loss[0.93549] remaining[3:55:14]
+09/27/2019 07:45:22 Task [ 0] updates[324500] train loss[0.93535] remaining[3:53:32]
+09/27/2019 07:47:05 Task [ 0] updates[325000] train loss[0.93523] remaining[3:51:50]
+09/27/2019 07:48:48 Task [ 0] updates[325500] train loss[0.93511] remaining[3:50:07]
+09/27/2019 07:50:30 Task [ 0] updates[326000] train loss[0.93498] remaining[3:48:24]
+09/27/2019 07:52:13 Task [ 0] updates[326500] train loss[0.93481] remaining[3:46:40]
+09/27/2019 07:53:56 Task [ 0] updates[327000] train loss[0.93471] remaining[3:44:58]
+09/27/2019 07:55:38 Task [ 0] updates[327500] train loss[0.93457] remaining[3:43:15]
+09/27/2019 07:57:21 Task [ 0] updates[328000] train loss[0.93444] remaining[3:41:32]
+09/27/2019 07:59:03 Task [ 0] updates[328500] train loss[0.93432] remaining[3:39:49]
+09/27/2019 08:00:46 Task [ 0] updates[329000] train loss[0.93418] remaining[3:38:06]
+09/27/2019 08:02:28 Task [ 0] updates[329500] train loss[0.93401] remaining[3:36:22]
+09/27/2019 08:04:11 Task [ 0] updates[330000] train loss[0.93389] remaining[3:34:40]
+09/27/2019 08:05:53 Task [ 0] updates[330500] train loss[0.93377] remaining[3:32:57]
+09/27/2019 08:07:36 Task [ 0] updates[331000] train loss[0.93363] remaining[3:31:13]
+09/27/2019 08:09:18 Task [ 0] updates[331500] train loss[0.93344] remaining[3:29:30]
+09/27/2019 08:11:01 Task [ 0] updates[332000] train loss[0.93330] remaining[3:27:47]
+09/27/2019 08:12:43 Task [ 0] updates[332500] train loss[0.93316] remaining[3:26:04]
+09/27/2019 08:14:26 Task [ 0] updates[333000] train loss[0.93306] remaining[3:24:22]
+09/27/2019 08:16:09 Task [ 0] updates[333500] train loss[0.93290] remaining[3:22:39]
+09/27/2019 08:17:51 Task [ 0] updates[334000] train loss[0.93276] remaining[3:20:56]
+09/27/2019 08:19:34 Task [ 0] updates[334500] train loss[0.93265] remaining[3:19:13]
+09/27/2019 08:21:16 Task [ 0] updates[335000] train loss[0.93253] remaining[3:17:30]
+09/27/2019 08:22:59 Task [ 0] updates[335500] train loss[0.93239] remaining[3:15:47]
+09/27/2019 08:24:42 Task [ 0] updates[336000] train loss[0.93224] remaining[3:14:05]
+09/27/2019 08:26:24 Task [ 0] updates[336500] train loss[0.93213] remaining[3:12:21]
+09/27/2019 08:28:06 Task [ 0] updates[337000] train loss[0.93201] remaining[3:10:38]
+09/27/2019 08:29:49 Task [ 0] updates[337500] train loss[0.93191] remaining[3:08:55]
+09/27/2019 08:31:31 Task [ 0] updates[338000] train loss[0.93173] remaining[3:07:12]
+09/27/2019 08:33:14 Task [ 0] updates[338500] train loss[0.93160] remaining[3:05:30]
+09/27/2019 08:34:57 Task [ 0] updates[339000] train loss[0.93149] remaining[3:03:48]
+09/27/2019 08:36:39 Task [ 0] updates[339500] train loss[0.93132] remaining[3:02:04]
+09/27/2019 08:38:22 Task [ 0] updates[340000] train loss[0.93119] remaining[3:00:22]
+09/27/2019 08:40:05 Task [ 0] updates[340500] train loss[0.93108] remaining[2:58:39]
+09/27/2019 08:41:48 Task [ 0] updates[341000] train loss[0.93095] remaining[2:56:57]
+09/27/2019 08:43:31 Task [ 0] updates[341500] train loss[0.93081] remaining[2:55:15]
+09/27/2019 08:45:14 Task [ 0] updates[342000] train loss[0.93069] remaining[2:53:32]
+09/27/2019 08:46:57 Task [ 0] updates[342500] train loss[0.93055] remaining[2:51:50]
+09/27/2019 08:48:39 Task [ 0] updates[343000] train loss[0.93046] remaining[2:50:07]
+09/27/2019 08:50:22 Task [ 0] updates[343500] train loss[0.93032] remaining[2:48:25]
+09/27/2019 08:52:05 Task [ 0] updates[344000] train loss[0.93019] remaining[2:46:42]
+09/27/2019 08:53:48 Task [ 0] updates[344500] train loss[0.93006] remaining[2:45:00]
+09/27/2019 08:55:30 Task [ 0] updates[345000] train loss[0.92996] remaining[2:43:17]
+09/27/2019 08:57:13 Task [ 0] updates[345500] train loss[0.92986] remaining[2:41:34]
+09/27/2019 08:58:55 Task [ 0] updates[346000] train loss[0.92975] remaining[2:39:51]
+09/27/2019 09:00:38 Task [ 0] updates[346500] train loss[0.92962] remaining[2:38:08]
+09/27/2019 09:02:20 Task [ 0] updates[347000] train loss[0.92955] remaining[2:36:26]
+09/27/2019 09:04:03 Task [ 0] updates[347500] train loss[0.92941] remaining[2:34:43]
+09/27/2019 09:05:46 Task [ 0] updates[348000] train loss[0.92926] remaining[2:33:00]
+09/27/2019 09:07:29 Task [ 0] updates[348500] train loss[0.92913] remaining[2:31:18]
+09/27/2019 09:09:11 Task [ 0] updates[349000] train loss[0.92900] remaining[2:29:35]
+09/27/2019 09:10:54 Task [ 0] updates[349500] train loss[0.92890] remaining[2:27:52]
+09/27/2019 09:12:36 Task [ 0] updates[350000] train loss[0.92876] remaining[2:26:09]
+09/27/2019 09:14:19 Task [ 0] updates[350500] train loss[0.92863] remaining[2:24:27]
+09/27/2019 09:16:01 Task [ 0] updates[351000] train loss[0.92848] remaining[2:22:43]
+09/27/2019 09:17:43 Task [ 0] updates[351500] train loss[0.92839] remaining[2:21:00]
+09/27/2019 09:19:26 Task [ 0] updates[352000] train loss[0.92826] remaining[2:19:18]
+09/27/2019 09:21:09 Task [ 0] updates[352500] train loss[0.92816] remaining[2:17:35]
+09/27/2019 09:22:52 Task [ 0] updates[353000] train loss[0.92805] remaining[2:15:53]
+09/27/2019 09:24:34 Task [ 0] updates[353500] train loss[0.92794] remaining[2:14:10]
+09/27/2019 09:26:17 Task [ 0] updates[354000] train loss[0.92780] remaining[2:12:27]
+09/27/2019 09:27:59 Task [ 0] updates[354500] train loss[0.92769] remaining[2:10:44]
+09/27/2019 09:29:42 Task [ 0] updates[355000] train loss[0.92753] remaining[2:09:02]
+09/27/2019 09:31:25 Task [ 0] updates[355500] train loss[0.92740] remaining[2:07:19]
+09/27/2019 09:33:07 Task [ 0] updates[356000] train loss[0.92728] remaining[2:05:36]
+09/27/2019 09:34:50 Task [ 0] updates[356500] train loss[0.92713] remaining[2:03:54]
+09/27/2019 09:36:33 Task [ 0] updates[357000] train loss[0.92698] remaining[2:02:11]
+09/27/2019 09:38:15 Task [ 0] updates[357500] train loss[0.92686] remaining[2:00:28]
+09/27/2019 09:39:57 Task [ 0] updates[358000] train loss[0.92670] remaining[1:58:45]
+09/27/2019 09:41:39 Task [ 0] updates[358500] train loss[0.92657] remaining[1:57:02]
+09/27/2019 09:43:22 Task [ 0] updates[359000] train loss[0.92640] remaining[1:55:20]
+09/27/2019 09:45:05 Task [ 0] updates[359500] train loss[0.92625] remaining[1:53:37]
+09/27/2019 09:46:48 Task [ 0] updates[360000] train loss[0.92617] remaining[1:51:55]
+09/27/2019 09:48:30 Task [ 0] updates[360500] train loss[0.92602] remaining[1:50:12]
+09/27/2019 09:50:13 Task [ 0] updates[361000] train loss[0.92591] remaining[1:48:29]
+09/27/2019 09:51:56 Task [ 0] updates[361500] train loss[0.92576] remaining[1:46:47]
+09/27/2019 09:53:40 Task [ 0] updates[362000] train loss[0.92558] remaining[1:45:05]
+09/27/2019 09:55:23 Task [ 0] updates[362500] train loss[0.92547] remaining[1:43:22]
+09/27/2019 09:57:06 Task [ 0] updates[363000] train loss[0.92536] remaining[1:41:40]
+09/27/2019 09:58:48 Task [ 0] updates[363500] train loss[0.92520] remaining[1:39:57]
+09/27/2019 10:00:31 Task [ 0] updates[364000] train loss[0.92504] remaining[1:38:14]
+09/27/2019 10:02:14 Task [ 0] updates[364500] train loss[0.92487] remaining[1:36:31]
+09/27/2019 10:03:56 Task [ 0] updates[365000] train loss[0.92474] remaining[1:34:49]
+09/27/2019 10:05:39 Task [ 0] updates[365500] train loss[0.92464] remaining[1:33:06]
+09/27/2019 10:07:21 Task [ 0] updates[366000] train loss[0.92450] remaining[1:31:23]
+09/27/2019 10:09:03 Task [ 0] updates[366500] train loss[0.92438] remaining[1:29:40]
+09/27/2019 10:10:46 Task [ 0] updates[367000] train loss[0.92420] remaining[1:27:57]
+09/27/2019 10:12:28 Task [ 0] updates[367500] train loss[0.92407] remaining[1:26:15]
+09/27/2019 10:14:10 Task [ 0] updates[368000] train loss[0.92394] remaining[1:24:32]
+09/27/2019 10:15:53 Task [ 0] updates[368500] train loss[0.92379] remaining[1:22:49]
+09/27/2019 10:17:36 Task [ 0] updates[369000] train loss[0.92367] remaining[1:21:07]
+09/27/2019 10:19:18 Task [ 0] updates[369500] train loss[0.92356] remaining[1:19:24]
+09/27/2019 10:21:01 Task [ 0] updates[370000] train loss[0.92343] remaining[1:17:41]
+09/27/2019 10:22:43 Task [ 0] updates[370500] train loss[0.92330] remaining[1:15:58]
+09/27/2019 10:24:26 Task [ 0] updates[371000] train loss[0.92317] remaining[1:14:16]
+09/27/2019 10:26:08 Task [ 0] updates[371500] train loss[0.92302] remaining[1:12:33]
+09/27/2019 10:27:51 Task [ 0] updates[372000] train loss[0.92291] remaining[1:10:51]
+09/27/2019 10:29:34 Task [ 0] updates[372500] train loss[0.92280] remaining[1:09:08]
+09/27/2019 10:31:17 Task [ 0] updates[373000] train loss[0.92268] remaining[1:07:25]
+09/27/2019 10:32:59 Task [ 0] updates[373500] train loss[0.92257] remaining[1:05:43]
+09/27/2019 10:34:42 Task [ 0] updates[374000] train loss[0.92245] remaining[1:04:00]
+09/27/2019 10:36:24 Task [ 0] updates[374500] train loss[0.92234] remaining[1:02:17]
+09/27/2019 10:38:07 Task [ 0] updates[375000] train loss[0.92222] remaining[1:00:34]
+09/27/2019 10:39:50 Task [ 0] updates[375500] train loss[0.92212] remaining[0:58:52]
+09/27/2019 10:41:32 Task [ 0] updates[376000] train loss[0.92200] remaining[0:57:09]
+09/27/2019 10:43:15 Task [ 0] updates[376500] train loss[0.92186] remaining[0:55:26]
+09/27/2019 10:44:58 Task [ 0] updates[377000] train loss[0.92170] remaining[0:53:44]
+09/27/2019 10:46:40 Task [ 0] updates[377500] train loss[0.92158] remaining[0:52:01]
+09/27/2019 10:48:23 Task [ 0] updates[378000] train loss[0.92140] remaining[0:50:18]
+09/27/2019 10:50:06 Task [ 0] updates[378500] train loss[0.92130] remaining[0:48:36]
+09/27/2019 10:51:48 Task [ 0] updates[379000] train loss[0.92121] remaining[0:46:53]
+09/27/2019 10:53:31 Task [ 0] updates[379500] train loss[0.92109] remaining[0:45:11]
+09/27/2019 10:55:14 Task [ 0] updates[380000] train loss[0.92093] remaining[0:43:28]
+09/27/2019 10:56:57 Task [ 0] updates[380500] train loss[0.92080] remaining[0:41:45]
+09/27/2019 10:58:40 Task [ 0] updates[381000] train loss[0.92070] remaining[0:40:03]
+09/27/2019 11:00:23 Task [ 0] updates[381500] train loss[0.92053] remaining[0:38:20]
+09/27/2019 11:02:05 Task [ 0] updates[382000] train loss[0.92040] remaining[0:36:37]
+09/27/2019 11:03:48 Task [ 0] updates[382500] train loss[0.92028] remaining[0:34:55]
+09/27/2019 11:05:31 Task [ 0] updates[383000] train loss[0.92016] remaining[0:33:12]
+09/27/2019 11:07:14 Task [ 0] updates[383500] train loss[0.92004] remaining[0:31:29]
+09/27/2019 11:08:56 Task [ 0] updates[384000] train loss[0.91993] remaining[0:29:47]
+09/27/2019 11:10:39 Task [ 0] updates[384500] train loss[0.91982] remaining[0:28:04]
+09/27/2019 11:12:22 Task [ 0] updates[385000] train loss[0.91971] remaining[0:26:21]
+09/27/2019 11:14:05 Task [ 0] updates[385500] train loss[0.91960] remaining[0:24:39]
+09/27/2019 11:15:48 Task [ 0] updates[386000] train loss[0.91948] remaining[0:22:56]
+09/27/2019 11:17:30 Task [ 0] updates[386500] train loss[0.91935] remaining[0:21:13]
+09/27/2019 11:19:13 Task [ 0] updates[387000] train loss[0.91918] remaining[0:19:31]
+09/27/2019 11:20:55 Task [ 0] updates[387500] train loss[0.91905] remaining[0:17:48]
+09/27/2019 11:22:38 Task [ 0] updates[388000] train loss[0.91897] remaining[0:16:05]
+09/27/2019 11:24:20 Task [ 0] updates[388500] train loss[0.91885] remaining[0:14:23]
+09/27/2019 11:26:03 Task [ 0] updates[389000] train loss[0.91873] remaining[0:12:40]
+09/27/2019 11:27:45 Task [ 0] updates[389500] train loss[0.91861] remaining[0:10:57]
+09/27/2019 11:29:28 Task [ 0] updates[390000] train loss[0.91850] remaining[0:09:15]
+09/27/2019 11:31:10 Task [ 0] updates[390500] train loss[0.91838] remaining[0:07:32]
+09/27/2019 11:32:53 Task [ 0] updates[391000] train loss[0.91826] remaining[0:05:49]
+09/27/2019 11:34:36 Task [ 0] updates[391500] train loss[0.91813] remaining[0:04:07]
+09/27/2019 11:36:19 Task [ 0] updates[392000] train loss[0.91802] remaining[0:02:24]
+09/27/2019 11:38:01 Task [ 0] updates[392500] train loss[0.91790] remaining[0:00:41]
+09/27/2019 11:40:05 Task mnli_mismatched -- epoch 3 -- Dev ACC: 64.076
+09/27/2019 11:41:27 [new test scores saved.]
+09/27/2019 11:42:48 Task mnli_matched -- epoch 3 -- Dev ACC: 63.413
+09/27/2019 11:44:09 [new test scores saved.]
+09/27/2019 11:44:22 At epoch 4
+09/27/2019 11:45:23 Task [ 0] updates[393000] train loss[0.91779] remaining[5:34:10]
+09/27/2019 11:47:05 Task [ 0] updates[393500] train loss[0.91764] remaining[5:32:19]
+09/27/2019 11:48:48 Task [ 0] updates[394000] train loss[0.91753] remaining[5:32:03]
+09/27/2019 11:50:31 Task [ 0] updates[394500] train loss[0.91739] remaining[5:30:28]
+09/27/2019 11:52:14 Task [ 0] updates[395000] train loss[0.91725] remaining[5:28:25]
+09/27/2019 11:53:57 Task [ 0] updates[395500] train loss[0.91712] remaining[5:26:48]
+09/27/2019 11:55:39 Task [ 0] updates[396000] train loss[0.91695] remaining[5:25:00]
+09/27/2019 11:57:22 Task [ 0] updates[396500] train loss[0.91681] remaining[5:23:16]
+09/27/2019 11:59:05 Task [ 0] updates[397000] train loss[0.91665] remaining[5:21:34]
+09/27/2019 12:00:47 Task [ 0] updates[397500] train loss[0.91653] remaining[5:19:46]
+09/27/2019 12:02:30 Task [ 0] updates[398000] train loss[0.91639] remaining[5:18:00]
+09/27/2019 12:04:13 Task [ 0] updates[398500] train loss[0.91625] remaining[5:16:21]
+09/27/2019 12:05:55 Task [ 0] updates[399000] train loss[0.91611] remaining[5:14:38]
+09/27/2019 12:07:38 Task [ 0] updates[399500] train loss[0.91596] remaining[5:12:52]
+09/27/2019 12:09:21 Task [ 0] updates[400000] train loss[0.91584] remaining[5:11:11]
+09/27/2019 12:11:04 Task [ 0] updates[400500] train loss[0.91568] remaining[5:09:28]
+09/27/2019 12:12:46 Task [ 0] updates[401000] train loss[0.91551] remaining[5:07:41]
+09/27/2019 12:14:29 Task [ 0] updates[401500] train loss[0.91537] remaining[5:05:59]
+09/27/2019 12:16:11 Task [ 0] updates[402000] train loss[0.91524] remaining[5:04:14]
+09/27/2019 12:17:54 Task [ 0] updates[402500] train loss[0.91509] remaining[5:02:29]
+09/27/2019 12:19:36 Task [ 0] updates[403000] train loss[0.91497] remaining[5:00:45]
+09/27/2019 12:21:20 Task [ 0] updates[403500] train loss[0.91481] remaining[4:59:08]
+09/27/2019 12:23:02 Task [ 0] updates[404000] train loss[0.91468] remaining[4:57:24]
+09/27/2019 12:24:45 Task [ 0] updates[404500] train loss[0.91458] remaining[4:55:43]
+09/27/2019 12:26:28 Task [ 0] updates[405000] train loss[0.91445] remaining[4:54:02]
+09/27/2019 12:28:11 Task [ 0] updates[405500] train loss[0.91430] remaining[4:52:20]
+09/27/2019 12:29:53 Task [ 0] updates[406000] train loss[0.91419] remaining[4:50:36]
+09/27/2019 12:31:36 Task [ 0] updates[406500] train loss[0.91407] remaining[4:48:53]
+09/27/2019 12:33:19 Task [ 0] updates[407000] train loss[0.91394] remaining[4:47:12]
+09/27/2019 12:35:01 Task [ 0] updates[407500] train loss[0.91383] remaining[4:45:27]
+09/27/2019 12:36:44 Task [ 0] updates[408000] train loss[0.91370] remaining[4:43:43]
+09/27/2019 12:38:26 Task [ 0] updates[408500] train loss[0.91358] remaining[4:42:01]
+09/27/2019 12:40:09 Task [ 0] updates[409000] train loss[0.91346] remaining[4:40:19]
+09/27/2019 12:41:52 Task [ 0] updates[409500] train loss[0.91334] remaining[4:38:36]
+09/27/2019 12:43:35 Task [ 0] updates[410000] train loss[0.91321] remaining[4:36:54]
+09/27/2019 12:45:18 Task [ 0] updates[410500] train loss[0.91306] remaining[4:35:14]
+09/27/2019 12:47:00 Task [ 0] updates[411000] train loss[0.91292] remaining[4:33:29]
+09/27/2019 12:48:43 Task [ 0] updates[411500] train loss[0.91279] remaining[4:31:46]
+09/27/2019 12:50:25 Task [ 0] updates[412000] train loss[0.91262] remaining[4:30:00]
+09/27/2019 12:52:08 Task [ 0] updates[412500] train loss[0.91251] remaining[4:28:18]
+09/27/2019 12:53:50 Task [ 0] updates[413000] train loss[0.91237] remaining[4:26:35]
+09/27/2019 12:55:33 Task [ 0] updates[413500] train loss[0.91222] remaining[4:24:51]
+09/27/2019 12:57:16 Task [ 0] updates[414000] train loss[0.91214] remaining[4:23:09]
+09/27/2019 12:58:58 Task [ 0] updates[414500] train loss[0.91201] remaining[4:21:26]
+09/27/2019 01:00:41 Task [ 0] updates[415000] train loss[0.91190] remaining[4:19:43]
+09/27/2019 01:02:24 Task [ 0] updates[415500] train loss[0.91177] remaining[4:18:00]
+09/27/2019 01:04:06 Task [ 0] updates[416000] train loss[0.91164] remaining[4:16:17]
+09/27/2019 01:05:49 Task [ 0] updates[416500] train loss[0.91152] remaining[4:14:37]
+09/27/2019 01:07:32 Task [ 0] updates[417000] train loss[0.91137] remaining[4:12:54]
+09/27/2019 01:09:15 Task [ 0] updates[417500] train loss[0.91125] remaining[4:11:11]
+09/27/2019 01:10:58 Task [ 0] updates[418000] train loss[0.91112] remaining[4:09:29]
+09/27/2019 01:12:40 Task [ 0] updates[418500] train loss[0.91097] remaining[4:07:46]
+09/27/2019 01:14:23 Task [ 0] updates[419000] train loss[0.91085] remaining[4:06:04]
+09/27/2019 01:16:05 Task [ 0] updates[419500] train loss[0.91075] remaining[4:04:20]
+09/27/2019 01:17:48 Task [ 0] updates[420000] train loss[0.91060] remaining[4:02:37]
+09/27/2019 01:19:31 Task [ 0] updates[420500] train loss[0.91046] remaining[4:00:54]
+09/27/2019 01:21:13 Task [ 0] updates[421000] train loss[0.91035] remaining[3:59:11]
+09/27/2019 01:22:56 Task [ 0] updates[421500] train loss[0.91024] remaining[3:57:29]
+09/27/2019 01:24:39 Task [ 0] updates[422000] train loss[0.91010] remaining[3:55:46]
+09/27/2019 01:26:21 Task [ 0] updates[422500] train loss[0.90995] remaining[3:54:03]
+09/27/2019 01:28:03 Task [ 0] updates[423000] train loss[0.90985] remaining[3:52:19]
+09/27/2019 01:29:46 Task [ 0] updates[423500] train loss[0.90973] remaining[3:50:37]
+09/27/2019 01:31:29 Task [ 0] updates[424000] train loss[0.90961] remaining[3:48:54]
+09/27/2019 01:33:11 Task [ 0] updates[424500] train loss[0.90950] remaining[3:47:11]
+09/27/2019 01:34:54 Task [ 0] updates[425000] train loss[0.90937] remaining[3:45:28]
+09/27/2019 01:36:37 Task [ 0] updates[425500] train loss[0.90920] remaining[3:43:46]
+09/27/2019 01:38:20 Task [ 0] updates[426000] train loss[0.90904] remaining[3:42:04]
+09/27/2019 01:40:03 Task [ 0] updates[426500] train loss[0.90894] remaining[3:40:22]
+09/27/2019 01:41:45 Task [ 0] updates[427000] train loss[0.90880] remaining[3:38:38]
+09/27/2019 01:43:28 Task [ 0] updates[427500] train loss[0.90867] remaining[3:36:56]
+09/27/2019 01:45:11 Task [ 0] updates[428000] train loss[0.90857] remaining[3:35:13]
+09/27/2019 01:46:54 Task [ 0] updates[428500] train loss[0.90844] remaining[3:33:31]
+09/27/2019 01:48:37 Task [ 0] updates[429000] train loss[0.90829] remaining[3:31:49]
+09/27/2019 01:50:19 Task [ 0] updates[429500] train loss[0.90817] remaining[3:30:06]
+09/27/2019 01:52:02 Task [ 0] updates[430000] train loss[0.90806] remaining[3:28:23]
+09/27/2019 01:53:45 Task [ 0] updates[430500] train loss[0.90794] remaining[3:26:41]
+09/27/2019 01:55:28 Task [ 0] updates[431000] train loss[0.90782] remaining[3:24:58]
+09/27/2019 01:57:10 Task [ 0] updates[431500] train loss[0.90770] remaining[3:23:15]
+09/27/2019 01:58:53 Task [ 0] updates[432000] train loss[0.90758] remaining[3:21:34]
+09/27/2019 02:00:38 Task [ 0] updates[432500] train loss[0.90747] remaining[3:19:54]
+09/27/2019 02:02:24 Task [ 0] updates[433000] train loss[0.90732] remaining[3:18:16]
+09/27/2019 02:04:07 Task [ 0] updates[433500] train loss[0.90724] remaining[3:16:33]
+09/27/2019 02:05:49 Task [ 0] updates[434000] train loss[0.90713] remaining[3:14:50]
+09/27/2019 02:07:32 Task [ 0] updates[434500] train loss[0.90702] remaining[3:13:07]
+09/27/2019 02:09:14 Task [ 0] updates[435000] train loss[0.90689] remaining[3:11:24]
+09/27/2019 02:10:57 Task [ 0] updates[435500] train loss[0.90678] remaining[3:09:40]
+09/27/2019 02:12:39 Task [ 0] updates[436000] train loss[0.90664] remaining[3:07:57]
+09/27/2019 02:14:22 Task [ 0] updates[436500] train loss[0.90651] remaining[3:06:14]
+09/27/2019 02:16:04 Task [ 0] updates[437000] train loss[0.90639] remaining[3:04:32]
+09/27/2019 02:17:48 Task [ 0] updates[437500] train loss[0.90625] remaining[3:02:49]
+09/27/2019 02:19:30 Task [ 0] updates[438000] train loss[0.90615] remaining[3:01:06]
+09/27/2019 02:21:13 Task [ 0] updates[438500] train loss[0.90603] remaining[2:59:24]
+09/27/2019 02:22:56 Task [ 0] updates[439000] train loss[0.90592] remaining[2:57:41]
+09/27/2019 02:24:38 Task [ 0] updates[439500] train loss[0.90580] remaining[2:55:58]
+09/27/2019 02:26:21 Task [ 0] updates[440000] train loss[0.90565] remaining[2:54:16]
+09/27/2019 02:28:04 Task [ 0] updates[440500] train loss[0.90552] remaining[2:52:32]
+09/27/2019 02:29:46 Task [ 0] updates[441000] train loss[0.90540] remaining[2:50:50]
+09/27/2019 02:31:29 Task [ 0] updates[441500] train loss[0.90527] remaining[2:49:07]
+09/27/2019 02:33:12 Task [ 0] updates[442000] train loss[0.90513] remaining[2:47:24]
+09/27/2019 02:34:55 Task [ 0] updates[442500] train loss[0.90498] remaining[2:45:41]
+09/27/2019 02:36:37 Task [ 0] updates[443000] train loss[0.90484] remaining[2:43:58]
+09/27/2019 02:38:20 Task [ 0] updates[443500] train loss[0.90472] remaining[2:42:15]
+09/27/2019 02:40:02 Task [ 0] updates[444000] train loss[0.90459] remaining[2:40:33]
+09/27/2019 02:41:45 Task [ 0] updates[444500] train loss[0.90445] remaining[2:38:50]
+09/27/2019 02:43:27 Task [ 0] updates[445000] train loss[0.90434] remaining[2:37:07]
+09/27/2019 02:45:10 Task [ 0] updates[445500] train loss[0.90426] remaining[2:35:24]
+09/27/2019 02:46:52 Task [ 0] updates[446000] train loss[0.90414] remaining[2:33:41]
+09/27/2019 02:48:36 Task [ 0] updates[446500] train loss[0.90405] remaining[2:31:59]
+09/27/2019 02:50:18 Task [ 0] updates[447000] train loss[0.90394] remaining[2:30:15]
+09/27/2019 02:52:01 Task [ 0] updates[447500] train loss[0.90379] remaining[2:28:33]
+09/27/2019 02:53:43 Task [ 0] updates[448000] train loss[0.90370] remaining[2:26:50]
+09/27/2019 02:55:27 Task [ 0] updates[448500] train loss[0.90358] remaining[2:25:07]
+09/27/2019 02:57:09 Task [ 0] updates[449000] train loss[0.90347] remaining[2:23:25]
+09/27/2019 02:58:52 Task [ 0] updates[449500] train loss[0.90333] remaining[2:21:42]
+09/27/2019 03:00:35 Task [ 0] updates[450000] train loss[0.90321] remaining[2:19:59]
+09/27/2019 03:02:17 Task [ 0] updates[450500] train loss[0.90311] remaining[2:18:16]
+09/27/2019 03:03:59 Task [ 0] updates[451000] train loss[0.90301] remaining[2:16:33]
+09/27/2019 03:05:42 Task [ 0] updates[451500] train loss[0.90287] remaining[2:14:51]
+09/27/2019 03:07:25 Task [ 0] updates[452000] train loss[0.90276] remaining[2:13:08]
+09/27/2019 03:09:08 Task [ 0] updates[452500] train loss[0.90267] remaining[2:11:25]
+09/27/2019 03:10:51 Task [ 0] updates[453000] train loss[0.90254] remaining[2:09:42]
+09/27/2019 03:12:34 Task [ 0] updates[453500] train loss[0.90239] remaining[2:08:00]
+09/27/2019 03:14:16 Task [ 0] updates[454000] train loss[0.90227] remaining[2:06:17]
+09/27/2019 03:15:59 Task [ 0] updates[454500] train loss[0.90216] remaining[2:04:34]
+09/27/2019 03:17:41 Task [ 0] updates[455000] train loss[0.90203] remaining[2:02:51]
+09/27/2019 03:19:24 Task [ 0] updates[455500] train loss[0.90193] remaining[2:01:09]
+09/27/2019 03:21:07 Task [ 0] updates[456000] train loss[0.90182] remaining[1:59:26]
+09/27/2019 03:22:50 Task [ 0] updates[456500] train loss[0.90170] remaining[1:57:43]
+09/27/2019 03:24:32 Task [ 0] updates[457000] train loss[0.90160] remaining[1:56:00]
+09/27/2019 03:26:15 Task [ 0] updates[457500] train loss[0.90149] remaining[1:54:18]
+09/27/2019 03:27:57 Task [ 0] updates[458000] train loss[0.90138] remaining[1:52:35]
+09/27/2019 03:29:40 Task [ 0] updates[458500] train loss[0.90125] remaining[1:50:52]
+09/27/2019 03:31:22 Task [ 0] updates[459000] train loss[0.90113] remaining[1:49:09]
+09/27/2019 03:33:05 Task [ 0] updates[459500] train loss[0.90103] remaining[1:47:26]
+09/27/2019 03:34:47 Task [ 0] updates[460000] train loss[0.90093] remaining[1:45:44]
+09/27/2019 03:36:30 Task [ 0] updates[460500] train loss[0.90080] remaining[1:44:01]
+09/27/2019 03:38:13 Task [ 0] updates[461000] train loss[0.90071] remaining[1:42:18]
+09/27/2019 03:39:56 Task [ 0] updates[461500] train loss[0.90059] remaining[1:40:35]
+09/27/2019 03:41:39 Task [ 0] updates[462000] train loss[0.90048] remaining[1:38:53]
+09/27/2019 03:43:21 Task [ 0] updates[462500] train loss[0.90034] remaining[1:37:10]
+09/27/2019 03:45:04 Task [ 0] updates[463000] train loss[0.90023] remaining[1:35:27]
+09/27/2019 03:46:47 Task [ 0] updates[463500] train loss[0.90013] remaining[1:33:45]
+09/27/2019 03:48:30 Task [ 0] updates[464000] train loss[0.90001] remaining[1:32:02]
+09/27/2019 03:50:12 Task [ 0] updates[464500] train loss[0.89992] remaining[1:30:19]
+09/27/2019 03:51:54 Task [ 0] updates[465000] train loss[0.89982] remaining[1:28:36]
+09/27/2019 03:53:37 Task [ 0] updates[465500] train loss[0.89969] remaining[1:26:53]
+09/27/2019 03:55:19 Task [ 0] updates[466000] train loss[0.89959] remaining[1:25:11]
+09/27/2019 03:57:02 Task [ 0] updates[466500] train loss[0.89947] remaining[1:23:28]
+09/27/2019 03:58:45 Task [ 0] updates[467000] train loss[0.89935] remaining[1:21:45]
+09/27/2019 04:00:27 Task [ 0] updates[467500] train loss[0.89926] remaining[1:20:02]
+09/27/2019 04:02:10 Task [ 0] updates[468000] train loss[0.89914] remaining[1:18:20]
+09/27/2019 04:03:52 Task [ 0] updates[468500] train loss[0.89902] remaining[1:16:37]
+09/27/2019 04:05:35 Task [ 0] updates[469000] train loss[0.89887] remaining[1:14:54]
+09/27/2019 04:07:18 Task [ 0] updates[469500] train loss[0.89875] remaining[1:13:12]
+09/27/2019 04:09:00 Task [ 0] updates[470000] train loss[0.89863] remaining[1:11:29]
+09/27/2019 04:10:43 Task [ 0] updates[470500] train loss[0.89851] remaining[1:09:46]
+09/27/2019 04:12:26 Task [ 0] updates[471000] train loss[0.89841] remaining[1:08:03]
+09/27/2019 04:14:08 Task [ 0] updates[471500] train loss[0.89831] remaining[1:06:20]
+09/27/2019 04:15:50 Task [ 0] updates[472000] train loss[0.89821] remaining[1:04:38]
+09/27/2019 04:17:33 Task [ 0] updates[472500] train loss[0.89812] remaining[1:02:55]
+09/27/2019 04:19:16 Task [ 0] updates[473000] train loss[0.89803] remaining[1:01:12]
+09/27/2019 04:20:59 Task [ 0] updates[473500] train loss[0.89795] remaining[0:59:30]
+09/27/2019 04:22:41 Task [ 0] updates[474000] train loss[0.89787] remaining[0:57:47]
+09/27/2019 04:24:25 Task [ 0] updates[474500] train loss[0.89774] remaining[0:56:04]
+09/27/2019 04:26:07 Task [ 0] updates[475000] train loss[0.89768] remaining[0:54:22]
+09/27/2019 04:27:50 Task [ 0] updates[475500] train loss[0.89757] remaining[0:52:39]
+09/27/2019 04:29:33 Task [ 0] updates[476000] train loss[0.89742] remaining[0:50:56]
+09/27/2019 04:31:16 Task [ 0] updates[476500] train loss[0.89732] remaining[0:49:14]
+09/27/2019 04:32:58 Task [ 0] updates[477000] train loss[0.89721] remaining[0:47:31]
+09/27/2019 04:34:41 Task [ 0] updates[477500] train loss[0.89709] remaining[0:45:48]
+09/27/2019 04:36:24 Task [ 0] updates[478000] train loss[0.89699] remaining[0:44:05]
+09/27/2019 04:38:07 Task [ 0] updates[478500] train loss[0.89684] remaining[0:42:23]
+09/27/2019 04:39:49 Task [ 0] updates[479000] train loss[0.89670] remaining[0:40:40]
+09/27/2019 04:41:32 Task [ 0] updates[479500] train loss[0.89659] remaining[0:38:57]
+09/27/2019 04:43:14 Task [ 0] updates[480000] train loss[0.89646] remaining[0:37:14]
+09/27/2019 04:44:57 Task [ 0] updates[480500] train loss[0.89636] remaining[0:35:32]
+09/27/2019 04:46:40 Task [ 0] updates[481000] train loss[0.89627] remaining[0:33:49]
+09/27/2019 04:48:22 Task [ 0] updates[481500] train loss[0.89616] remaining[0:32:06]
+09/27/2019 04:50:05 Task [ 0] updates[482000] train loss[0.89604] remaining[0:30:24]
+09/27/2019 04:51:47 Task [ 0] updates[482500] train loss[0.89594] remaining[0:28:41]
+09/27/2019 04:53:30 Task [ 0] updates[483000] train loss[0.89583] remaining[0:26:58]
+09/27/2019 04:55:12 Task [ 0] updates[483500] train loss[0.89571] remaining[0:25:15]
+09/27/2019 04:56:55 Task [ 0] updates[484000] train loss[0.89559] remaining[0:23:33]
+09/27/2019 04:58:37 Task [ 0] updates[484500] train loss[0.89551] remaining[0:21:50]
+09/27/2019 05:00:20 Task [ 0] updates[485000] train loss[0.89540] remaining[0:20:07]
+09/27/2019 05:02:04 Task [ 0] updates[485500] train loss[0.89530] remaining[0:18:25]
+09/27/2019 05:03:47 Task [ 0] updates[486000] train loss[0.89521] remaining[0:16:42]
+09/27/2019 05:05:29 Task [ 0] updates[486500] train loss[0.89509] remaining[0:14:59]
+09/27/2019 05:07:12 Task [ 0] updates[487000] train loss[0.89499] remaining[0:13:17]
+09/27/2019 05:08:54 Task [ 0] updates[487500] train loss[0.89487] remaining[0:11:34]
+09/27/2019 05:10:37 Task [ 0] updates[488000] train loss[0.89475] remaining[0:09:51]
+09/27/2019 05:12:20 Task [ 0] updates[488500] train loss[0.89465] remaining[0:08:08]
+09/27/2019 05:14:03 Task [ 0] updates[489000] train loss[0.89450] remaining[0:06:26]
+09/27/2019 05:15:46 Task [ 0] updates[489500] train loss[0.89442] remaining[0:04:43]
+09/27/2019 05:17:29 Task [ 0] updates[490000] train loss[0.89433] remaining[0:03:00]
+09/27/2019 05:19:12 Task [ 0] updates[490500] train loss[0.89420] remaining[0:01:18]
+09/27/2019 05:21:52 Task mnli_mismatched -- epoch 4 -- Dev ACC: 65.226
+09/27/2019 05:23:14 [new test scores saved.]
+09/27/2019 05:24:34 Task mnli_matched -- epoch 4 -- Dev ACC: 64.177
+09/27/2019 05:25:56 [new test scores saved.]
