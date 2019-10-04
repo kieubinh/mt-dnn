@@ -137,3 +137,4 @@ mt_dnn_models
 run_test/
 experiments/superglue
 temp/
+checkpoints_gpu/
